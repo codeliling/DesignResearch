@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<array>
+	<dict>
+		<key>enName</key>
+		<string>TIME &amp; SPECIFIC YEAR</string>
+		<key>cnName</key>
+		<string>时间/年份</string>
+		<key>flag</key>
+		<string>0</string>
+	</dict>
+	<dict>
+		<key>enName</key>
+		<string>DESIGN REQUIREMENT</string>
+		<key>cnName</key>
+		<string>设计需求</string>
+		<key>flag</key>
+		<string>1</string>
+	</dict>
+	<dict>
+		<key>enName</key>
+		<string>RESEARCH CLASSIFICATION</string>
+		<key>cnName</key>
+		<string>研究类别</string>
+		<key>flag</key>
+		<string>2</string>
+	</dict>
+	<dict>
+		<key>enName</key>
+		<string>RESEARCH OBJECT</string>
+		<key>cnName</key>
+		<string>研究对象</string>
+		<key>flag</key>
+		<string>3</string>
+	</dict>
+	<dict>
+		<key>enName</key>
+		<string>MAIN FIELD</string>
+		<key>cnName</key>
+		<string>所属领域</string>
+		<key>flag</key>
+		<string>4</string>
+	</dict>
+</array>
+</plist>

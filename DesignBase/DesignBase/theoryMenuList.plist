@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<array>
+	<dict>
+		<key>enName</key>
+		<string>CONCEPT &amp; CATEGORY</string>
+		<key>cnName</key>
+		<string>1.概念与范畴</string>
+		<key>flag</key>
+		<string></string>
+		<key>list</key>
+		<array>
+			<dict>
+				<key>enName</key>
+				<string>WHY WE NEED DESIGN RESEARCH</string>
+				<key>cnName</key>
+				<string>1.1 为什么需要设计研究</string>
+				<key>flag</key>
+				<string>1.1</string>
+			</dict>
+			<dict>
+				<key>enName</key>
+				<string>DEFINITION</string>
+				<key>cnName</key>
+				<string>1.2 定义</string>
+				<key>flag</key>
+				<string>1.2</string>
+			</dict>
+			<dict>
+				<key>enName</key>
+				<string>ANALYSIS &amp; INTEGRATION</string>
+				<key>cnName</key>
+				<string>1.3 分析与综合</string>
+				<key>flag</key>
+				<string>1.3</string>
+			</dict>
+			<dict>
+				<key>enName</key>
+				<string>THE TYPE OF DESIGN RESEARCH</string>
+				<key>cnName</key>
+				<string>1.4 设计研究的类型</string>
+				<key>flag</key>
+				<string>1.4</string>
+			</dict>
+			<dict>
+				<key>enName</key>
+				<string>THE LAYER OF DESIGN RESEARCH</string>
+				<key>cnName</key>
+				<string>1.5 设计研究的层次</string>
+				<key>flag</key>
+				<string>1.5</string>
+			</dict>
+		</array>
+	</dict>
+	<dict>
+		<key>enName</key>
+		<string>HISTORY &amp; REVOLUTION</string>
+		<key>cnName</key>
+		<string>2. 历史与发展</string>
+		<key>flag</key>
+		<string></string>
+		<key>list</key>
+		<array>
+			<dict>
+				<key>enName</key>
+				<string>EARLY HISTORY:EXPERIENCE SUMMARY</string>
+				<key>cnName</key>
+				<string>2.1 早期历史:经验总结</string>
+				<key>flag</key>
+				<string>2.1</string>
+			</dict>
+			<dict>
+				<key>enName</key>
+				<string>BEGINNING &amp; ORIGIN</string>
+				<key>cnName</key>
+				<string>2.2 起源与诞生</string>
+				<key>flag</key>
+				<string>2.2</string>
+			</dict>
+			<dict>
+				<key>enName</key>
+				<string>CONTEMPORARY DESIGN</string>
+				<key>cnName</key>
+				<string>2.3 发展:当代设计研究</string>
+				<key>flag</key>
+				<string>2.3</string>
+			</dict>
+		</array>
+	</dict>
+	<dict>
+		<key>enName</key>
+		<string>THEORETICAL FOUNDATION</string>
+		<key>cnName</key>
+		<string>3.设计研究的理论基础</string>
+		<key>flag</key>
+		<string></string>
+		<key>list</key>
+		<array>
+			<dict>
+				<key>enName</key>
+				<string>BASIC CONCEPTS</string>
+				<key>cnName</key>
+				<string>3.1 设计理论:基本概念</string>
+				<key>flag</key>
+				<string>3.1</string>
+			</dict>
+			<dict>
+				<key>enName</key>
+				<string>WHAT IS DESIGN （ING）?</string>
+				<key>cnName</key>
+				<string>3.2 寻求真实的设计研究</string>
+				<key>flag</key>
+				<string>3.2</string>
+			</dict>
+			<dict>
+				<key>enName</key>
+				<string>HOW TO DESIGN?</string>
+				<key>cnName</key>
+				<string>3.3 追求实用的设计研究</string>
+				<key>flag</key>
+				<string>3.3</string>
+			</dict>
+		</array>
+	</dict>
+	<dict>
+		<key>enName</key>
+		<string>ABOUT DESIGN NOUMENON</string>
+		<key>cnName</key>
+		<string>4.关于设计本体的探索</string>
+		<key>flag</key>
+		<string></string>
+		<key>list</key>
+		<array>
+			<dict>
+				<key>enName</key>
+				<string>RATIONAL PROBLEM SOLVING SYSTEM</string>
+				<key>cnName</key>
+				<string>4.1 理性问题求解模型</string>
+				<key>flag</key>
+				<string>4.1</string>
+			</dict>
+			<dict>
+				<key>enName</key>
+				<string>REFLECTED－PRACTICE SYSTEM</string>
+				<key>cnName</key>
+				<string>4.2 反应实践模型</string>
+				<key>flag</key>
+				<string>4.2</string>
+			</dict>
+			<dict>
+				<key>enName</key>
+				<string>INTEGRATED VIEWS</string>
+				<key>cnName</key>
+				<string>4.3 整合的观点</string>
+				<key>flag</key>
+				<string>4.3</string>
+			</dict>
+		</array>
+	</dict>
+	<dict>
+		<key>enName</key>
+		<string>THEORETICAL MODEL</string>
+		<key>cnName</key>
+		<string>5. 设计研究的理论模型</string>
+		<key>flag</key>
+		<string></string>
+		<key>list</key>
+		<array>
+			<dict>
+				<key>enName</key>
+				<string>OBJECT MODEL</string>
+				<key>cnName</key>
+				<string>5.1设计研究对象模型</string>
+				<key>flag</key>
+				<string>5.1</string>
+			</dict>
+			<dict>
+				<key>enName</key>
+				<string>SYSTEM MODEL</string>
+				<key>cnName</key>
+				<string>5.2 设计研究体系模型</string>
+				<key>flag</key>
+				<string>5.2</string>
+			</dict>
+			<dict>
+				<key>enName</key>
+				<string>CHRONOLOGICAL MODEL</string>
+				<key>cnName</key>
+				<string>5.3 设计研究时序模型</string>
+				<key>flag</key>
+				<string>5.3</string>
+			</dict>
+		</array>
+	</dict>
+	<dict>
+		<key>enName</key>
+		<string>METHODOLOGY SYSTEM</string>
+		<key>cnName</key>
+		<string>6.设计研究方法论体系</string>
+		<key>flag</key>
+		<string></string>
+		<key>list</key>
+		<array>
+			<dict>
+				<key>enName</key>
+				<string>THEORY CONSTURUCTION</string>
+				<key>cnName</key>
+				<string>6.1 设计研究的理论构建</string>
+				<key>flag</key>
+				<string>6.1</string>
+			</dict>
+			<dict>
+				<key>enName</key>
+				<string>LOGICAL ARCUMENT SYSTEM</string>
+				<key>cnName</key>
+				<string>6.2 逻辑论证体系</string>
+				<key>flag</key>
+				<string>6.2</string>
+			</dict>
+			<dict>
+				<key>enName</key>
+				<string>BASIC METHODS</string>
+				<key>cnName</key>
+				<string>6.3 设计研究的基本方法</string>
+				<key>flag</key>
+				<string>6.3</string>
+			</dict>
+		</array>
+	</dict>
+	<dict>
+		<key>enName</key>
+		<string>DESIGN, EVALUATION, ETHICS</string>
+		<key>cnName</key>
+		<string>7.设计、评价与道德</string>
+		<key>flag</key>
+		<string></string>
+		<key>list</key>
+		<array>
+			<dict>
+				<key>enName</key>
+				<string>DESIGN THE DESIGN RESEARCH</string>
+				<key>cnName</key>
+				<string>7.1 设计研究的设计</string>
+				<key>flag</key>
+				<string>7.1</string>
+			</dict>
+			<dict>
+				<key>enName</key>
+				<string>RELIABILITY &amp; VALIDITY</string>
+				<key>cnName</key>
+				<string>7.2 设计研究的信效度</string>
+				<key>flag</key>
+				<string>7.2</string>
+			</dict>
+			<dict>
+				<key>enName</key>
+				<string>ETHICS &amp; MORALITY</string>
+				<key>cnName</key>
+				<string>7.3 设计研究的伦理道德</string>
+				<key>flag</key>
+				<string>7.3</string>
+			</dict>
+		</array>
+	</dict>
+</array>
+</plist>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<array>
+	<dict>
+		<key>cnName</key>
+		<string>方法简介</string>
+		<key>enName</key>
+		<string>INTRODUCTION</string>
+		<key>flag</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>cnName</key>
+		<string>应用情境</string>
+		<key>enName</key>
+		<string>APPLICATION</string>
+		<key>flag</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>cnName</key>
+		<string>流程步骤</string>
+		<key>enName</key>
+		<string>STEP &amp; SUCCESS</string>
+		<key>flag</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>cnName</key>
+		<string>教学案例</string>
+		<key>enName</key>
+		<string>CASE STUDY</string>
+		<key>flag</key>
+		<string></string>
+	</dict>
+</array>
+</plist>
