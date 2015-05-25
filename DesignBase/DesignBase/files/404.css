@@ -1,14 +1,23 @@
 @charset "utf-8";
 /* CSS Document */
-
+html{
+    height:100%;
+    width:100%;
+}
 body{
-	background:#333;
+    background:#fff;
 	font-family:"微软雅黑";
-	}
+    position:relative;
+    height:100%;
+}
 .zy_info404{
-	background:url(404-1.png) no-repeat right;
-	height:768px;
-	position:relative;
+	background:url(wrong.png) no-repeat right;
+	height:208px;
+    width:180px;
+	position:absolute;
+    left:50%;
+    top:50%;
+    margin:-104px 0px 0px -90px;
 	color:#ccc;
 	padding:0 0 0 0;
     background-size:100%;

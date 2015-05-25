@@ -32,6 +32,7 @@ class MethodDetailStudyCaseViewController: UIViewController {
         textView.font = UIFont(name: "SourceHanSansCN-Normal", size: 12)
         textView.backgroundColor = UIColor.clearColor()
         textView.hidden = true
+        textView.textColor = UIColor.darkGrayColor()
         textView.alpha = 0
         
         self.view.addSubview(textView)

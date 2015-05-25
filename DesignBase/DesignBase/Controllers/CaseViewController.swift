@@ -9,7 +9,7 @@
 import UIKit
 import Alamofire
 
-class CaseViewController: ViewController {
+class CaseViewController: ViewController,UIScrollViewDelegate {
     
     var lineLayer:CALayer?
     var menuView:MenuView?
@@ -24,6 +24,10 @@ class CaseViewController: ViewController {
     @IBOutlet weak var teacherLabel: UILabel!
     
     @IBOutlet weak var webView: UIWebView!
+    var isMenuSpread = true
+    var popMenuBtn:UIButton!
+    
+    @IBOutlet weak var menuPanelView: UIView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,7 +35,7 @@ class CaseViewController: ViewController {
         lineLayer = CALayer()
         lineLayer?.frame = CGRectMake(20, 230, 170, 2)
         lineLayer?.backgroundColor = UIColor.whiteColor().CGColor
-        self.view.layer.addSublayer(lineLayer)
+        self.menuPanelView.layer.addSublayer(lineLayer)
         // Do any additional setup after loading the view, typically from a nib.
         
         var tapGesture:UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "backImageClick:")
@@ -44,13 +48,20 @@ class CaseViewController: ViewController {
             menuView?.enTitle = enTitle
             menuView?.backgroundColor = UIColor(red: 102/255.0, green: 59/255.0, blue: 209/255.0, alpha: 1)
             menuView?.setNeedsDisplay()
-            self.view.addSubview(menuView!)
+            self.menuPanelView.addSubview(menuView!)
         }
         
         self.loadingTheoryContent(url!)
         
         webView.backgroundColor = UIColor.whiteColor()
+        webView.scrollView.delegate = self
         
+        popMenuBtn = UIButton(frame: CGRectMake(0, 0, 50, 50))
+        popMenuBtn.setBackgroundImage(UIImage(named: "mainMenuBg"), forState: UIControlState.Normal)
+        popMenuBtn.addTarget(self, action: "popMenuBtnClick:", forControlEvents: UIControlEvents.TouchUpInside)
+        self.view.addSubview(popMenuBtn)
+        
+        self.view.bringSubviewToFront(menuPanelView!)
     }
     
     func loadingTheoryContent(url:String){
@@ -96,6 +107,34 @@ class CaseViewController: ViewController {
         self.dismissViewControllerAnimated(true, completion: { () -> Void in
             
         })
+    }
+    
+    func scrollViewWillBeginDragging(scrollView: UIScrollView) {
+        if (isMenuSpread){
+            UIView.animateWithDuration(1.0, animations: { () -> Void in
+                var point:CGPoint? = self.menuPanelView?.center
+                point?.x -= 210
+                self.menuPanelView?.center = point!
+                }) { (Bool) -> Void in
+                    println("close over")
+                    self.isMenuSpread = false
+                    self.menuPanelView.hidden = true
+            }
+        }
+    }
+    
+    func popMenuBtnClick(target:UIButton!){
+        if !isMenuSpread{
+            self.menuPanelView.hidden = false
+            UIView.animateWithDuration(1.0, animations: { () -> Void in
+                var point:CGPoint? = self.menuPanelView?.center
+                point?.x += 210
+                self.menuPanelView?.center = point!
+                }) { (Bool) -> Void in
+                    println("close over")
+                    self.isMenuSpread = true
+            }
+        }
     }
     
     override func didReceiveMemoryWarning() {

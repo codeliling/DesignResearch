@@ -10,7 +10,7 @@
 @synthesize viewToMagnify, touchPoint;
 
 - (id)initWithFrame:(CGRect)frame {
-    if (self = [super initWithFrame:CGRectMake(0, 0, 200, 200)]) {
+    if (self = [super initWithFrame:CGRectMake(0, 0, 180, 180)]) {
         // make the circle-shape outline with a nice border.
         /*
         self.layer.borderColor = [[UIColor lightGrayColor] CGColor];
@@ -19,7 +19,7 @@
         self.layer.masksToBounds = YES;
        */
         CALayer *maskLayer = [CALayer new];
-        maskLayer.frame = CGRectMake(0, 0, 200, 200);
+        maskLayer.frame = CGRectMake(0, 0, 180, 180);
         maskLayer.contents = (id)[UIImage imageNamed:@"panelBg"].CGImage;
         [self.layer addSublayer:maskLayer];
         self.layer.borderWidth = 0;
@@ -31,7 +31,7 @@
     touchPoint = pt;
     // whenever touchPoint is set,
     // update the position of the magnifier (to just above what's being magnified)
-    self.center = CGPointMake(pt.x, pt.y-10);
+    self.center = CGPointMake(pt.x, pt.y - 10);
 }
 
 - (void)drawRect:(CGRect)rect {

@@ -23,7 +23,7 @@ class HomeViewController:UIViewController,UICollectionViewDataSource, UICollecti
     var subMenuIsSpread:Bool = false
     
     var isAddPanel:Bool = false
-    var panel:UIView = UIView(frame: CGRectMake(670, 460, 101, 101))
+    var panel:UIView = UIView(frame: CGRectMake(673, 460, 101, 101))
     var menuType:Int = MenuType.METHOD.rawValue
     
     var centerPointList:[CGPoint] = Array()
@@ -61,6 +61,8 @@ class HomeViewController:UIViewController,UICollectionViewDataSource, UICollecti
             self.view.addSubview(view)
             theoryViewController?.view.hidden = true
         }
+        
+        self.view.insertSubview(backBtn, aboveSubview: theoryViewController!.view)
         
         var methodModel:MethodModel
         
@@ -135,7 +137,7 @@ class HomeViewController:UIViewController,UICollectionViewDataSource, UICollecti
                 point?.x += 210
                 self.menuViewController?.view.center = point!
                 }) { (Bool) -> Void in
-                    println("spread over")
+                    println("...spread over")
                     self.mainMenuIsSpread = true
                     
             }
@@ -245,7 +247,7 @@ class HomeViewController:UIViewController,UICollectionViewDataSource, UICollecti
             panel.backgroundColor = bgColor
             self.collectionView.addSubview(panel)
             UIView.animateWithDuration(1.5, delay: 0, usingSpringWithDamping: 0.6, initialSpringVelocity: 2.0, options: UIViewAnimationOptions.CurveEaseIn, animations: { () -> Void in
-                self.panel.frame = CGRectMake(590, 360, 235, 225)
+                self.panel.frame = CGRectMake(595, 360, 235, 225)
                 }) { (Bool) -> Void in
                     self.isAddPanel = true
             }
@@ -254,7 +256,7 @@ class HomeViewController:UIViewController,UICollectionViewDataSource, UICollecti
         {
             panel.removeFromSuperview();
             self.isAddPanel = false
-            self.panel.frame = CGRectMake(670, 460, 101, 101)
+            self.panel.frame = CGRectMake(675, 460, 101, 101)
         }
     }
     
@@ -286,6 +288,10 @@ class HomeViewController:UIViewController,UICollectionViewDataSource, UICollecti
                 methodList.append(methodModel)
             }
             collectionView.reloadData()
+            
+            if isAddPanel{
+                self.panel.hidden = true
+            }
         }
         else if menuType == MenuType.METHOD.rawValue{
             theoryViewController?.view.hidden = true
@@ -303,9 +309,10 @@ class HomeViewController:UIViewController,UICollectionViewDataSource, UICollecti
                 
                 methodList.append(methodModel)
             }
-
-            
            collectionView.reloadData()
+            if isAddPanel{
+                self.panel.hidden = false
+            }
         }
         if (subMenuIsSpread){
             closeSubMenu()
@@ -407,7 +414,7 @@ class HomeViewController:UIViewController,UICollectionViewDataSource, UICollecti
             println(center)
             UIView.animateWithDuration(1.0, animations: { () -> Void in
                 var point:CGPoint? = paramSender.view?.center
-                point = CGPointMake(center.x - 10, center.y)
+                point = CGPointMake(center.x - 2, center.y)
                 paramSender.view?.center = point!
                 }) { (Bool) -> Void in
                     

@@ -32,15 +32,16 @@ class MethodCaseViewController: UIViewController,UIScrollViewDelegate {
         
         magnifierView = MagnifierView()
         magnifierView.viewToMagnify = self.view
-        magnifierView.touchPoint = CGPointMake(455, 230)
+        magnifierView.touchPoint = CGPointMake(665, 230)
         magnifierView.backgroundColor = UIColor.clearColor()
         self.view.addSubview(magnifierView)
        
         webView = UIWebView(frame: CGRectMake(0, 768, 1024, 768))
+        webView.scrollView.delegate = self
         self.view.addSubview(webView)
         
-        closeImage = UIImageView(frame: CGRectMake(700, 10, 68, 32))
-        closeImage?.image = UIImage(named: "bottomArrow")
+        closeImage = UIImageView(frame: CGRectMake(960, 10, 54, 51))
+        closeImage?.image = UIImage(named: "close")
         closeImage?.userInteractionEnabled = true
         var closeTap:UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "closeTapClickAction:")
         closeImage?.addGestureRecognizer(closeTap)
@@ -77,7 +78,7 @@ class MethodCaseViewController: UIViewController,UIScrollViewDelegate {
             var num:Int = 0
             for i in caseList{
                 println(i)
-                var imageName:String = "method"
+                var imageName:String = "S1408W0"
                 if i < 9{
                     imageName += "0" + String(i)
                 }
@@ -111,34 +112,44 @@ class MethodCaseViewController: UIViewController,UIScrollViewDelegate {
     }
     
     func scrollViewDidEndDragging(_scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        var offset:CGFloat = _scrollView.contentOffset.x
-        
-        if offset < 100
-        {
-            scrollView.setContentOffset(CGPointMake(0, 0), animated: true)
-            if (caseList.count > 0){
-                loadCase(caseList[0])
+        if(!_scrollView.superview!.isKindOfClass(UIWebView.classForCoder())){
+            var offset:CGFloat = _scrollView.contentOffset.x
+            
+            if offset < 100
+            {
+                scrollView.setContentOffset(CGPointMake(0, 0), animated: true)
+                if (caseList.count > 0){
+                    loadCase(caseList[0])
+                }
             }
-        }
-        else if offset > 100 && offset < 180
-        {
-            scrollView.setContentOffset(CGPointMake(130, 0), animated: true)
-            if (caseList.count > 1){
-                loadCase(caseList[1])
+            else if offset > 100 && offset < 180
+            {
+                scrollView.setContentOffset(CGPointMake(130, 0), animated: true)
+                if (caseList.count > 1){
+                    loadCase(caseList[1])
+                }
             }
-        }
-        else if offset > 180
-        {
-            scrollView.setContentOffset(CGPointMake(253, 0), animated: true)
-            if (caseList.count > 2){
-                loadCase(caseList[2])
+            else if offset > 180
+            {
+                scrollView.setContentOffset(CGPointMake(253, 0), animated: true)
+                if (caseList.count > 2){
+                    loadCase(caseList[2])
+                }
             }
         }
         
     }
     
-    func scrollViewDidScroll(scrollView: UIScrollView) {
-        magnifierView.setNeedsDisplay()
+    func scrollViewDidScroll(_scrollView: UIScrollView) {
+        if(!_scrollView.superview!.isKindOfClass(UIWebView.classForCoder())){
+            magnifierView.setNeedsDisplay()
+        }
+    }
+    
+    func scrollViewWillBeginDragging(_scrollView: UIScrollView) {
+        if(_scrollView.superview!.isKindOfClass(UIWebView.classForCoder())){
+            NSNotificationCenter.defaultCenter().postNotificationName("MethodAnimationMenuNotification", object: nil)
+        }
     }
     
     func loadCase(caseId:Int){
@@ -150,6 +161,7 @@ class MethodCaseViewController: UIViewController,UIScrollViewDelegate {
                 println(JSON)
                 var dict:NSDictionary =  JSON as NSDictionary
                 self.titleView.text = dict.objectForKey("name") as? String
+                println(dict.objectForKey("name") as? String)
                 self.timeLabel.text = dict.objectForKey("date_record") as? String
                 self.summary.text = dict.objectForKey("abstract") as? String
                 self.moreContent = dict.objectForKey("content") as? String

@@ -548,28 +548,92 @@
 	</dict>
 	<dict>
 		<key>cnName</key>
-		<string>历史</string>
+		<string>界面</string>
 		<key>enName</key>
-		<string>HISTORY</string>
+		<string>INTERFACE</string>
 		<key>flag</key>
 		<string></string>
 		<key>list</key>
 		<array>
 			<dict>
 				<key>cnName</key>
-				<string>文献综述</string>
+				<string>卡片分类</string>
 				<key>iconName</key>
-				<string>method39</string>
+				<string>method06</string>
 				<key>flag</key>
-				<string>10</string>
+				<string>77</string>
 			</dict>
 			<dict>
 				<key>cnName</key>
-				<string>桌面研究</string>
+				<string>流程图</string>
 				<key>iconName</key>
-				<string>method19</string>
+				<string>method30</string>
 				<key>flag</key>
-				<string>17</string>
+				<string>78</string>
+			</dict>
+			<dict>
+				<key>cnName</key>
+				<string>思维导图</string>
+				<key>iconName</key>
+				<string>method40</string>
+				<key>flag</key>
+				<string>58</string>
+			</dict>
+			<dict>
+				<key>cnName</key>
+				<string>生命周期分析</string>
+				<key>iconName</key>
+				<string>method38</string>
+				<key>flag</key>
+				<string>39</string>
+			</dict>
+			<dict>
+				<key>cnName</key>
+				<string>态势分析</string>
+				<key>iconName</key>
+				<string>method60</string>
+				<key>flag</key>
+				<string>40</string>
+			</dict>
+			<dict>
+				<key>cnName</key>
+				<string>概念图表</string>
+				<key>iconName</key>
+				<string>method12</string>
+				<key>flag</key>
+				<string>46</string>
+			</dict>
+			<dict>
+				<key>cnName</key>
+				<string>H2</string>
+				<key>iconName</key>
+				<string>method33</string>
+				<key>flag</key>
+				<string>23</string>
+			</dict>
+			<dict>
+				<key>cnName</key>
+				<string>反馈壁纸</string>
+				<key>iconName</key>
+				<string>method29</string>
+				<key>flag</key>
+				<string>7</string>
+			</dict>
+			<dict>
+				<key>cnName</key>
+				<string>影像表达</string>
+				<key>iconName</key>
+				<string>method69</string>
+				<key>flag</key>
+				<string>13</string>
+			</dict>
+			<dict>
+				<key>cnName</key>
+				<string>三角对比</string>
+				<key>iconName</key>
+				<string>method65</string>
+				<key>flag</key>
+				<string>15</string>
 			</dict>
 		</array>
 	</dict>
@@ -802,92 +866,28 @@
 	</dict>
 	<dict>
 		<key>cnName</key>
-		<string>界面</string>
+		<string>历史</string>
 		<key>enName</key>
-		<string>INTERFACE</string>
+		<string>HISTORY</string>
 		<key>flag</key>
 		<string></string>
 		<key>list</key>
 		<array>
 			<dict>
 				<key>cnName</key>
-				<string>卡片分类</string>
+				<string>文献综述</string>
 				<key>iconName</key>
-				<string>method06</string>
+				<string>method39</string>
 				<key>flag</key>
-				<string>77</string>
+				<string>10</string>
 			</dict>
 			<dict>
 				<key>cnName</key>
-				<string>流程图</string>
+				<string>桌面研究</string>
 				<key>iconName</key>
-				<string>method30</string>
+				<string>method19</string>
 				<key>flag</key>
-				<string>78</string>
-			</dict>
-			<dict>
-				<key>cnName</key>
-				<string>思维导图</string>
-				<key>iconName</key>
-				<string>method40</string>
-				<key>flag</key>
-				<string>58</string>
-			</dict>
-			<dict>
-				<key>cnName</key>
-				<string>生命周期分析</string>
-				<key>iconName</key>
-				<string>method38</string>
-				<key>flag</key>
-				<string>39</string>
-			</dict>
-			<dict>
-				<key>cnName</key>
-				<string>态势分析</string>
-				<key>iconName</key>
-				<string>method60</string>
-				<key>flag</key>
-				<string>40</string>
-			</dict>
-			<dict>
-				<key>cnName</key>
-				<string>概念图表</string>
-				<key>iconName</key>
-				<string>method12</string>
-				<key>flag</key>
-				<string>46</string>
-			</dict>
-			<dict>
-				<key>cnName</key>
-				<string>H2</string>
-				<key>iconName</key>
-				<string>method33</string>
-				<key>flag</key>
-				<string>23</string>
-			</dict>
-			<dict>
-				<key>cnName</key>
-				<string>反馈壁纸</string>
-				<key>iconName</key>
-				<string>method29</string>
-				<key>flag</key>
-				<string>7</string>
-			</dict>
-			<dict>
-				<key>cnName</key>
-				<string>影像表达</string>
-				<key>iconName</key>
-				<string>method69</string>
-				<key>flag</key>
-				<string>13</string>
-			</dict>
-			<dict>
-				<key>cnName</key>
-				<string>三角对比</string>
-				<key>iconName</key>
-				<string>method65</string>
-				<key>flag</key>
-				<string>15</string>
+				<string>17</string>
 			</dict>
 		</array>
 	</dict>

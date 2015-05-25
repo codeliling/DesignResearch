@@ -486,13 +486,64 @@
 	</dict>
 	<dict>
 		<key>cnName</key>
-		<string>历史</string>
+		<string>界面</string>
 		<key>enName</key>
-		<string>HISTORY</string>
+		<string>INTERFACE</string>
 		<key>flag</key>
 		<string></string>
 		<key>list</key>
-		<array/>
+		<array>
+			<dict>
+				<key>cnName</key>
+				<string>流程图</string>
+				<key>enName</key>
+				<string>FLOW CHART</string>
+				<key>iconName</key>
+				<string>S1408W010</string>
+				<key>flag</key>
+				<string>16</string>
+			</dict>
+			<dict>
+				<key>cnName</key>
+				<string>概念图表</string>
+				<key>enName</key>
+				<string>CONCEPT DIAGRAMS</string>
+				<key>iconName</key>
+				<string>S1408W019</string>
+				<key>flag</key>
+				<string>20</string>
+			</dict>
+			<dict>
+				<key>cnName</key>
+				<string>概念图表</string>
+				<key>enName</key>
+				<string>CONCEPT DIAGRAMS</string>
+				<key>iconName</key>
+				<string>S1408W016</string>
+				<key>flag</key>
+				<string>21</string>
+			</dict>
+			<dict>
+				<key>cnName</key>
+				<string>H2</string>
+				<key>enName</key>
+				<string>HOW-TO</string>
+				<key>iconName</key>
+				<string>S1408W030</string>
+				<key>flag</key>
+				<string>38</string>
+			</dict>
+			<dict>
+				<key>cnName</key>
+				<string>思维导图</string>
+				<key>enName</key>
+				<string>MIND MAP</string>
+				<key>iconName</key>
+				<string>S1408W032</string>
+				<key>flag</key>
+				<string>40</string>
+			</dict>
+		</array>
 	</dict>
 	<dict>
 		<key>cnName</key>
@@ -757,64 +808,13 @@
 	</dict>
 	<dict>
 		<key>cnName</key>
-		<string>界面</string>
+		<string>历史</string>
 		<key>enName</key>
-		<string>INTERFACE</string>
+		<string>HISTORY</string>
 		<key>flag</key>
 		<string></string>
 		<key>list</key>
-		<array>
-			<dict>
-				<key>cnName</key>
-				<string>流程图</string>
-				<key>enName</key>
-				<string>FLOW CHART</string>
-				<key>iconName</key>
-				<string>S1408W010</string>
-				<key>flag</key>
-				<string>16</string>
-			</dict>
-			<dict>
-				<key>cnName</key>
-				<string>概念图表</string>
-				<key>enName</key>
-				<string>CONCEPT DIAGRAMS</string>
-				<key>iconName</key>
-				<string>S1408W019</string>
-				<key>flag</key>
-				<string>20</string>
-			</dict>
-			<dict>
-				<key>cnName</key>
-				<string>概念图表</string>
-				<key>enName</key>
-				<string>CONCEPT DIAGRAMS</string>
-				<key>iconName</key>
-				<string>S1408W016</string>
-				<key>flag</key>
-				<string>21</string>
-			</dict>
-			<dict>
-				<key>cnName</key>
-				<string>H2</string>
-				<key>enName</key>
-				<string>HOW-TO</string>
-				<key>iconName</key>
-				<string>S1408W030</string>
-				<key>flag</key>
-				<string>38</string>
-			</dict>
-			<dict>
-				<key>cnName</key>
-				<string>思维导图</string>
-				<key>enName</key>
-				<string>MIND MAP</string>
-				<key>iconName</key>
-				<string>S1408W032</string>
-				<key>flag</key>
-				<string>40</string>
-			</dict>
-		</array>
+		<array/>
 	</dict>
 	<dict>
 		<key>cnName</key>

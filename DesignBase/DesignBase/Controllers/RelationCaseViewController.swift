@@ -17,6 +17,7 @@ class RelationCaseViewController: ViewController,UICollectionViewDataSource,UICo
     
     var methodId:String?
     var dataList:NSMutableArray!
+    var caseList:NSMutableArray?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,9 +32,11 @@ class RelationCaseViewController: ViewController,UICollectionViewDataSource,UICo
         collectionView.delegate = self
         collectionView.dataSource = self
         
+        var plistpath:String = NSBundle.mainBundle().pathForResource("caseList", ofType: "plist")!
         
+        caseList = NSMutableArray(contentsOfFile: plistpath)
     }
-    
+
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         
@@ -56,9 +59,17 @@ class RelationCaseViewController: ViewController,UICollectionViewDataSource,UICo
 
     }
     
-    func collectionView(collectionView: UICollectionView, didDeselectItemAtIndexPath indexPath: NSIndexPath) {
-        println(indexPath.row)
+    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+        var methodModel:MethodModel = dataList.objectAtIndex(indexPath.row) as MethodModel
+        var detailViewController = self.storyboard?.instantiateViewControllerWithIdentifier("caseDetail") as CaseViewController
+        println(methodModel.cnName)
+        detailViewController.chineseTitle = methodModel.cnName
+        detailViewController.enTitle = methodModel.enName
         
+        detailViewController.url = RequestURL.ServerCaseURL + methodModel.flag!
+        self.presentViewController(detailViewController, animated: true, completion: { () -> Void in
+            
+        })
     }
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAtIndex section: Int) -> CGFloat {
@@ -76,7 +87,7 @@ class RelationCaseViewController: ViewController,UICollectionViewDataSource,UICo
             var url:String = RequestURL.ServerMethodURL + methodId!
             println(url)
             Alamofire.request(.GET, url).responseJSON({ (_, _, JSON, error) -> Void in
-                
+                println(JSON)
                 if (error == nil){
                     var dict:NSDictionary = JSON as NSDictionary
                     var studyCases:[Int] = dict.objectForKey("study_cases") as Array
@@ -96,6 +107,21 @@ class RelationCaseViewController: ViewController,UICollectionViewDataSource,UICo
                                 methodModel?.iconName = "S1408W00" + String(i)
                             }
                             methodModel?.flag = String(i)
+                            if (self.caseList?.count > 0){
+                                for (var m = 0; m < self.caseList?.count; m++){
+                                    var dict = self.caseList?.objectAtIndex(m) as NSDictionary
+                                    var flag:AnyObject? = dict.objectForKey("flag")
+                                    if (flag != nil){
+                                        if (flag!.integerValue == i){
+                                            methodModel?.cnName = dict.objectForKey("cnName") as? String
+                                            methodModel?.enName = dict.objectForKey("enName") as? String
+                                            break
+                                        }
+                                    }
+                                    
+                                }
+                            }
+                            
                             self.dataList.addObject(methodModel!)
                         }
                         self.collectionView.reloadData()

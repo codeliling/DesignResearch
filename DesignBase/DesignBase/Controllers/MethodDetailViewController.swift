@@ -26,6 +26,11 @@ class MethodDetailViewController: UIViewController,UITableViewDataSource,UITable
     
     var contentDict:NSDictionary?
     
+    @IBOutlet weak var menuPanel: UIView!
+    var isMenuPanelSpread:Bool = true
+    
+    var popMenuBtn:UIButton!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -55,7 +60,7 @@ class MethodDetailViewController: UIViewController,UITableViewDataSource,UITable
         }
         
         self.mcController = MethodCaseViewController(nibName:"methodCaseView",bundle:mainBundle)
-        self.mcController?.view.frame = CGRectMake(210, 0, 814, 768)
+        self.mcController?.view.frame = CGRectMake(0, 0, 1024, 768)
         self.addChildViewController(self.mcController!)
         if let view = self.mcController?.view{
             self.view.addSubview(view)
@@ -63,6 +68,15 @@ class MethodDetailViewController: UIViewController,UITableViewDataSource,UITable
         }
         
         self.loadingMethodContent(RequestURL.ServerMethodURL + methodId)
+        
+        popMenuBtn = UIButton(frame: CGRectMake(0, 0, 50, 50))
+        popMenuBtn.setBackgroundImage(UIImage(named: "mainMenuBg"), forState: UIControlState.Normal)
+        popMenuBtn.addTarget(self, action: "popMenuBtnClick:", forControlEvents: UIControlEvents.TouchUpInside)
+        self.view.addSubview(popMenuBtn)
+        
+        self.view.bringSubviewToFront(tableView.superview!)
+        
+         NSNotificationCenter.defaultCenter().addObserver(self, selector: "animationOfReceivedNotification:", name: "MethodAnimationMenuNotification", object: nil)
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -122,6 +136,7 @@ class MethodDetailViewController: UIViewController,UITableViewDataSource,UITable
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         println(indexPath.row)
         var cell:MenuCell?
+        println(lastSelectRow)
         if lastSelectRow != nil{
             cell = tableView.cellForRowAtIndexPath(lastSelectRow!) as? MenuCell
             cell?.menuView.updateTextColor(UIColor.whiteColor())
@@ -130,7 +145,6 @@ class MethodDetailViewController: UIViewController,UITableViewDataSource,UITable
         cell?.menuView.updateTextColor(UIColor(red: 102/255.0, green: 59/255.0, blue: 209/255.0, alpha: 1))
         
         lastSelectRow = indexPath
-        
         if indexPath.row == 2
         {
             mdscController?.view.hidden = false
@@ -142,16 +156,24 @@ class MethodDetailViewController: UIViewController,UITableViewDataSource,UITable
                 mdscController?.data = array
                 mdscController?.addStepsView()
             }
+            else{
+                self.view.makeToast("无数据或者网络错误", duration: 2.0, position:CSToastPositionCenter)
+            }
         }
         else if indexPath.row == 3
         {
             mcController?.view.hidden = false
             mdscController?.view.hidden = true
             webView.hidden = true
-            var array:[Int] = self.contentDict?.objectForKey("study_cases") as Array
-            mcController?.caseList = array
-            mcController?.refreshMagnifier()
-            mcController?.initScrollView()
+            if (contentDict != nil){
+                var array:[Int] = self.contentDict?.objectForKey("study_cases") as Array
+                mcController?.caseList = array
+                mcController?.refreshMagnifier()
+                mcController?.initScrollView()
+            }
+            else{
+                self.view.makeToast("无数据或者网络错误", duration: 2.0, position:CSToastPositionCenter)
+            }
         }
         else
         {
@@ -222,5 +244,35 @@ class MethodDetailViewController: UIViewController,UITableViewDataSource,UITable
         self.dismissViewControllerAnimated(true, completion: { () -> Void in
             println("close view...")
         })
+    }
+    
+    func animationOfReceivedNotification(notification:NSNotification){
+        if isMenuPanelSpread{
+            UIView.animateWithDuration(1.0, animations: { () -> Void in
+                var point:CGPoint? = self.menuPanel.center
+                point?.x -= 210
+                self.menuPanel.center = point!
+                }) { (Bool) -> Void in
+                    println("close over")
+                    self.isMenuPanelSpread = false
+            }
+        }
+    }
+    
+    func popMenuBtnClick(target:UIButton!){
+        if !isMenuPanelSpread{
+            UIView.animateWithDuration(1.0, animations: { () -> Void in
+                var point:CGPoint? = self.menuPanel.center
+                point?.x += 210
+                self.menuPanel.center = point!
+                }) { (Bool) -> Void in
+                    println("close over")
+                    self.isMenuPanelSpread = true
+            }
+        }
+    }
+    
+    deinit{
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: "MethodAnimationMenuNotification", object: nil)
     }
 }
