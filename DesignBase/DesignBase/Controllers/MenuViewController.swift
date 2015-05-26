@@ -63,6 +63,7 @@ class MenuViewController:UIViewController,UITableViewDataSource,UITableViewDeleg
         
         var tapAboutIcon:UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "clickAboutIcon:")
         aboutIcon.addGestureRecognizer(tapAboutIcon)
+        
     }
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -134,6 +135,7 @@ class MenuViewController:UIViewController,UITableViewDataSource,UITableViewDeleg
         //var cell:MenuCell? = tableView.dequeueReusableCellWithIdentifier(cellIdentifier) as? MenuCell;
         
         var cell:MenuCell? = NSBundle.mainBundle().loadNibNamed("menuCell", owner: nil, options: nil)[0] as? MenuCell
+        
         /*
         if (cell == nil)
         {
@@ -171,8 +173,8 @@ class MenuViewController:UIViewController,UITableViewDataSource,UITableViewDeleg
             
         }
         
-        cell?.selectedBackgroundView.backgroundColor = UIColor(red: 247/255.0, green: 248/255.0, blue: 248/255.0, alpha: 1)
-        //cell?.selectionStyle = UITableViewCellSelectionStyle.None;
+        //cell?.selectedBackgroundView.backgroundColor = UIColor(red: 247/255.0, green: 248/255.0, blue: 248/255.0, alpha: 1)
+        cell?.selectionStyle = UITableViewCellSelectionStyle.None;
         return cell!;
     }
     
@@ -210,13 +212,14 @@ class MenuViewController:UIViewController,UITableViewDataSource,UITableViewDeleg
         var cell:MenuCell?
         if lastSelectRow != nil{
             cell = tableView.cellForRowAtIndexPath(lastSelectRow!) as? MenuCell
+            
             cell?.menuView.updateTextColor(UIColor.whiteColor())
             cell?.menuView?.updateBgColor(UIColor(red: 102/255.0, green: 59/255.0, blue: 209/255.0, alpha: 1))
         }
         cell = tableView.cellForRowAtIndexPath(indexPath) as? MenuCell
         cell?.menuView.updateTextColor(UIColor(red: 102/255.0, green: 59/255.0, blue: 209/255.0, alpha: 1))
+       
         cell?.menuView?.updateBgColor(UIColor.whiteColor())
-        cell?.selectionStyle = UITableViewCellSelectionStyle.Default
         
         lastSelectRow = indexPath
         var subMenuModel:SubMenuModel = SubMenuModel()
@@ -319,6 +322,7 @@ class MenuViewController:UIViewController,UITableViewDataSource,UITableViewDeleg
                     caseModel?.cnName = tempDict.objectForKey("cnName") as? String
                     caseModel?.iconName = tempDict.objectForKey("iconName") as? String
                     caseModel?.flag = tempDict.objectForKey("flag") as? String
+                    caseModel?.enName = tempDict.objectForKey("enName") as? String
                     caseArray.append(caseModel!)
                 }
             }
@@ -456,13 +460,13 @@ class MenuViewController:UIViewController,UITableViewDataSource,UITableViewDeleg
     func clickAboutIcon(recognizer:UITapGestureRecognizer){
         if (!isAboutIconClicked){
             aboutIcon.alpha = 0.8
-            isAboutIconClicked=true
+            self.isAboutIconClicked=true
         }
         else{
-            
             aboutIcon.alpha = 0.5
-            isAboutIconClicked=false
+            self.isAboutIconClicked=false
         }
+        NSNotificationCenter.defaultCenter().postNotificationName("EyeAnimationMenuNotification", object: "ABOUT")
     }
     
     func clickEyeIcon(recognizer:UITapGestureRecognizer){
@@ -472,11 +476,10 @@ class MenuViewController:UIViewController,UITableViewDataSource,UITableViewDeleg
             isEyeClicked=true
         }
         else{
-            
             eysImageView.alpha = 0.5
             isEyeClicked=false
         }
         
-        NSNotificationCenter.defaultCenter().postNotificationName("EyeAnimationMenuNotification", object: nil)
+        NSNotificationCenter.defaultCenter().postNotificationName("EyeAnimationMenuNotification", object: "EYE")
     }
 }

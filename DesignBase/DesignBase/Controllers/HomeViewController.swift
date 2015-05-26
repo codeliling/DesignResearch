@@ -9,7 +9,7 @@
 import UIKit
 import Alamofire
 
-class HomeViewController:UIViewController,UICollectionViewDataSource, UICollectionViewDelegate,UICollectionViewDelegateFlowLayout {
+class HomeViewController:UIViewController,UICollectionViewDataSource, UICollectionViewDelegate,UICollectionViewDelegateFlowLayout,UIScrollViewDelegate {
     
     @IBOutlet weak var collectionView: UICollectionView!
     
@@ -23,7 +23,8 @@ class HomeViewController:UIViewController,UICollectionViewDataSource, UICollecti
     var subMenuIsSpread:Bool = false
     
     var isAddPanel:Bool = false
-    var panel:UIView = UIView(frame: CGRectMake(673, 460, 101, 101))
+    var isAddAboutPanel:Bool = false
+    var panel:UIView = UIView(frame: CGRectMake(673, 0, 235, 235))
     var menuType:Int = MenuType.METHOD.rawValue
     
     var centerPointList:[CGPoint] = Array()
@@ -34,20 +35,13 @@ class HomeViewController:UIViewController,UICollectionViewDataSource, UICollecti
     
     var baiduStatistic:BaiduMobStat = BaiduMobStat.defaultStat()
     
+    var aboutView:UIView!
+    var offset:CGFloat = 0.0
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        /*
-        var array:NSArray = UIFont.familyNames()
-        for s in array{
-            println("=============\(s)")
-            var fontNames:NSArray? = UIFont.fontNamesForFamilyName(s as String)
-            if let names = fontNames{
-            for str in names{
-                println(str)
-            }
-            }
-        }*/
+        
         UIApplication.sharedApplication().statusBarHidden = true
         
         collectionView.dataSource = self
@@ -92,7 +86,6 @@ class HomeViewController:UIViewController,UICollectionViewDataSource, UICollecti
         }
         subMenuViewController?.view.hidden = true
         
-        
         menuViewController = MenuViewController(nibName:"menuPanel",bundle:mainBundle)
         menuViewController?.view.frame = CGRectMake(-210, 0,210,768)
         self.addChildViewController(menuViewController!)
@@ -116,6 +109,32 @@ class HomeViewController:UIViewController,UICollectionViewDataSource, UICollecti
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "contentReceivedNotification:", name: "ListContentNotification", object: nil)
         
          NSNotificationCenter.defaultCenter().addObserver(self, selector: "theoryReceivedNotification:", name: "TheoryContentNotification", object: nil)
+        
+        aboutView = UIView()
+        aboutView.frame = CGRectMake(0, 768, 1024, 768)
+        aboutView.backgroundColor = UIColor.whiteColor()
+        var aboutLayer:CALayer = CALayer()
+        aboutLayer.frame = CGRectMake(212, 0, 600, 768)
+        aboutLayer.contents = UIImage(named: "aboutContent")?.CGImage
+        aboutView.layer.addSublayer(aboutLayer)
+        
+        var leftLayer:CALayer = CALayer()
+        leftLayer.frame = CGRectMake(199, 0, 13, 768)
+        leftLayer.contents = UIImage(named: "line")?.CGImage
+        leftLayer.opacity = 0.5
+        self.aboutView.layer.addSublayer(leftLayer)
+        
+        var rightLayer:CALayer = CALayer()
+        rightLayer.frame = CGRectMake(833, 0, 13, 768)
+        rightLayer.contents = UIImage(named: "line")?.CGImage
+        rightLayer.opacity = 0.5
+        self.aboutView.layer.addSublayer(rightLayer)
+        
+        var aboutPanelCloseBtn:UIButton = UIButton(frame: CGRectMake(792, 0, 40, 40))
+        aboutPanelCloseBtn.setBackgroundImage(UIImage(named: "close"), forState: UIControlState.Normal)
+        aboutPanelCloseBtn.addTarget(self, action: "aboutPanelClose:", forControlEvents: UIControlEvents.TouchUpInside)
+        aboutView.addSubview(aboutPanelCloseBtn)
+        self.view.addSubview(aboutView)
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -129,7 +148,9 @@ class HomeViewController:UIViewController,UICollectionViewDataSource, UICollecti
     }
     
     @IBAction func popMenu(sender: AnyObject) {
+        println(mainMenuIsSpread)
         if (!mainMenuIsSpread){
+            self.mainMenuIsSpread = true
             menuViewController?.view.hidden = false
             self.view.insertSubview(self.backBtn, belowSubview: self.theoryViewController!.view)
             UIView.animateWithDuration(1.0, animations: { () -> Void in
@@ -137,9 +158,7 @@ class HomeViewController:UIViewController,UICollectionViewDataSource, UICollecti
                 point?.x += 210
                 self.menuViewController?.view.center = point!
                 }) { (Bool) -> Void in
-                    println("...spread over")
-                    self.mainMenuIsSpread = true
-                    
+                    println("....pop spread over")
             }
             baiduStatistic.logEvent("TapMainMenu", eventLabel: "弹出主菜单")
         }
@@ -191,13 +210,11 @@ class HomeViewController:UIViewController,UICollectionViewDataSource, UICollecti
             println(methodModel.cnName)
             detailViewController.chineseTitle = methodModel.cnName
             detailViewController.enTitle = methodModel.enName
-            
             detailViewController.url = RequestURL.ServerCaseURL + methodModel.flag!
             self.presentViewController(detailViewController, animated: true, completion: { () -> Void in
                 
             })
         }
-        
     }
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAtIndex section: Int) -> CGFloat {
@@ -227,6 +244,7 @@ class HomeViewController:UIViewController,UICollectionViewDataSource, UICollecti
         }
         else if menuStatus == "OPEN"{
             if !subMenuIsSpread{
+                 self.subMenuIsSpread = true
                 self.subMenuViewController?.view.hidden = false
                 UIView.animateWithDuration(0.5, animations: { () -> Void in
                     var point:CGPoint? = self.subMenuViewController?.view.center
@@ -234,7 +252,7 @@ class HomeViewController:UIViewController,UICollectionViewDataSource, UICollecti
                     self.subMenuViewController?.view.center = point!
                     }) { (Bool) -> Void in
                         println("spread over")
-                        self.subMenuIsSpread = true
+                       
                 }
             }
         }
@@ -242,21 +260,37 @@ class HomeViewController:UIViewController,UICollectionViewDataSource, UICollecti
     
     func eyeOfReceivedNotification(notification:NSNotification)
     {
-        if !isAddPanel{
-            var bgColor:UIColor = UIColor(patternImage: UIImage(named: "panelBg")!)
-            panel.backgroundColor = bgColor
-            self.collectionView.addSubview(panel)
-            UIView.animateWithDuration(1.5, delay: 0, usingSpringWithDamping: 0.6, initialSpringVelocity: 2.0, options: UIViewAnimationOptions.CurveEaseIn, animations: { () -> Void in
-                self.panel.frame = CGRectMake(595, 360, 235, 225)
-                }) { (Bool) -> Void in
-                    self.isAddPanel = true
+        var eyeOrAbout:String = notification.object as String
+        if (eyeOrAbout == "EYE"){
+            if methodList.count > 0{
+                if !isAddPanel{
+                    var bgColor:UIColor = UIColor(patternImage: UIImage(named: "panelBg")!)
+                    panel.backgroundColor = bgColor
+                    self.collectionView.addSubview(panel)
+                    UIView.animateWithDuration(1.5, delay: 0, usingSpringWithDamping: 0.6, initialSpringVelocity: 2.0, options: UIViewAnimationOptions.CurveEaseIn, animations: { () -> Void in
+                        if self.methodList.count > 10{
+                            self.panel.frame = CGRectMake(595, 172 + CGFloat(Int(self.offset / 192)*192), 235, 235)
+                        }
+                        else{
+                            self.panel.frame = CGRectMake(595, -20 + CGFloat(Int(self.offset / 192)*192), 235, 235)
+                        }
+                        }) { (Bool) -> Void in
+                            self.isAddPanel = true
+                    }
+                }
+                else
+                {
+                    panel.removeFromSuperview();
+                    self.isAddPanel = false
+                    self.panel.frame = CGRectMake(675, 160 + CGFloat(Int(self.offset / 192)*192), 235, 235)
+                }
+            }
+            else{
+                self.view.makeToast("无数据!", duration: 2.0, position:CSToastPositionCenter)
             }
         }
-        else
-        {
-            panel.removeFromSuperview();
-            self.isAddPanel = false
-            self.panel.frame = CGRectMake(675, 460, 101, 101)
+        else if (eyeOrAbout == "ABOUT"){
+            aboutPanelClose(nil)
         }
     }
     
@@ -345,28 +379,27 @@ class HomeViewController:UIViewController,UICollectionViewDataSource, UICollecti
     }
     
     func closeSubMenu(){
+        self.subMenuIsSpread = false
         UIView.animateWithDuration(1.0, animations: { () -> Void in
             var point:CGPoint? = self.subMenuViewController?.view.center
             point?.x -= 420
             self.subMenuViewController?.view.center = point!
             }) { (Bool) -> Void in
                 println("close over")
-                self.subMenuIsSpread = false
                 self.subMenuViewController?.view.hidden = true
-                
         }
     }
     
     func closeMainMenu(){
         //self.theoryViewController?.view.hidden = true
+        self.view.bringSubviewToFront(self.backBtn)
+        self.mainMenuIsSpread = false
         UIView.animateWithDuration(1.0, animations: { () -> Void in
             var point:CGPoint? = self.menuViewController?.view.center
             point?.x -= 210
             self.menuViewController?.view.center = point!
             }) { (Bool) -> Void in
                 println("close over")
-                self.mainMenuIsSpread = false
-                self.view.bringSubviewToFront(self.backBtn)
                 self.menuViewController?.view.hidden = true
         }
     }
@@ -455,6 +488,10 @@ class HomeViewController:UIViewController,UICollectionViewDataSource, UICollecti
         }
     }
     
+    func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        offset = scrollView.contentOffset.y
+    }
+    
     func distanceBetweenPoint(point1:CGPoint, point2:CGPoint)->CGFloat{
         var xDelta:CGFloat = point1.x - point2.x
         var xDeltaPF:CGFloat = pow(xDelta, 2)
@@ -463,6 +500,30 @@ class HomeViewController:UIViewController,UICollectionViewDataSource, UICollecti
         var yDeltaPF:CGFloat = pow(yDelta, 2)
         
         return sqrt(xDeltaPF + yDeltaPF)
+    }
+    
+    func aboutPanelClose(target:UIButton!)
+    {
+        if !isAddAboutPanel{
+            UIView.animateWithDuration(0.5, animations: { () -> Void in
+                var point:CGPoint? = self.aboutView.center
+                point?.y -= 768
+                self.aboutView.center = point!
+                }) { (Bool) -> Void in
+                    println("spread over")
+                    self.isAddAboutPanel = true
+            }
+        }
+        else{
+            UIView.animateWithDuration(0.5, animations: { () -> Void in
+                var point:CGPoint? = self.aboutView.center
+                point?.y += 768
+                self.aboutView.center = point!
+                }) { (Bool) -> Void in
+                    println("close over")
+                    self.isAddAboutPanel = false
+            }
+        }
     }
     
     deinit{

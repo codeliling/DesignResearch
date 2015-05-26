@@ -14,15 +14,19 @@
         // make the circle-shape outline with a nice border.
         /*
         self.layer.borderColor = [[UIColor lightGrayColor] CGColor];
-        self.layer.borderWidth = 3;
+        self.layer.borderWidth = 10;
         self.layer.cornerRadius = 10;
+        self.layer.shadowRadius = 10;
+        self.layer.shadowOffset = CGSizeMake(100, 100);
         self.layer.masksToBounds = YES;
        */
+        
         CALayer *maskLayer = [CALayer new];
-        maskLayer.frame = CGRectMake(0, 0, 180, 180);
+        maskLayer.frame = CGRectMake(-13, -25, 200, 200);
         maskLayer.contents = (id)[UIImage imageNamed:@"panelBg"].CGImage;
         [self.layer addSublayer:maskLayer];
         self.layer.borderWidth = 0;
+        
     }
     return self;
 }
@@ -31,7 +35,7 @@
     touchPoint = pt;
     // whenever touchPoint is set,
     // update the position of the magnifier (to just above what's being magnified)
-    self.center = CGPointMake(pt.x, pt.y - 10);
+    self.center = CGPointMake(pt.x, pt.y - 13);
 }
 
 - (void)drawRect:(CGRect)rect {

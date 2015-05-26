@@ -38,7 +38,7 @@ class MenuView: UIView {
     override func drawRect(rect: CGRect) {
         var retinaScreen:Bool = (UIScreen.mainScreen().currentMode?.size.width == 768)
         bgLayer = CALayer()
-        bgLayer.frame = CGRectMake(0, 0, 200, 54)
+        bgLayer.frame = CGRectMake(0, 0, 200, 55)
         self.layer.addSublayer(bgLayer)
         
         if chineseMenu == nil{

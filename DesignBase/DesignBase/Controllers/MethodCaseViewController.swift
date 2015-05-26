@@ -27,6 +27,8 @@ class MethodCaseViewController: UIViewController,UIScrollViewDelegate {
     var moreContent:String?
     var closeImage:UIImageView?
     
+    @IBOutlet weak var moreBtn: UIButton!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -63,9 +65,11 @@ class MethodCaseViewController: UIViewController,UIScrollViewDelegate {
         
         if caseList.count == 0{
             self.view.makeToast("无关联案例", duration: 2.0, position:CSToastPositionCenter)
+            moreBtn.hidden = true
         }
         else
         {
+            moreBtn.hidden  = false
             self.loadCase(caseList[0])
             
             contentView = UIView(frame: CGRectMake(0, 0, 910, 130))

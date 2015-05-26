@@ -33,7 +33,7 @@ class CaseViewController: ViewController,UIScrollViewDelegate {
         super.viewDidLoad()
         
         lineLayer = CALayer()
-        lineLayer?.frame = CGRectMake(20, 230, 170, 2)
+        lineLayer?.frame = CGRectMake(20, 200, 170, 1)
         lineLayer?.backgroundColor = UIColor.whiteColor().CGColor
         self.menuPanelView.layer.addSublayer(lineLayer)
         // Do any additional setup after loading the view, typically from a nib.
@@ -43,7 +43,7 @@ class CaseViewController: ViewController,UIScrollViewDelegate {
         
         if (menuView == nil){
             menuView = MenuView()
-            menuView?.frame = CGRectMake(10, 170, 170, 60)
+            menuView?.frame = CGRectMake(10, 140, 170, 60)
             menuView?.chineseTitle = chineseTitle
             menuView?.enTitle = enTitle
             menuView?.backgroundColor = UIColor(red: 102/255.0, green: 59/255.0, blue: 209/255.0, alpha: 1)
@@ -111,13 +111,13 @@ class CaseViewController: ViewController,UIScrollViewDelegate {
     
     func scrollViewWillBeginDragging(scrollView: UIScrollView) {
         if (isMenuSpread){
+            self.isMenuSpread = false
             UIView.animateWithDuration(1.0, animations: { () -> Void in
                 var point:CGPoint? = self.menuPanelView?.center
                 point?.x -= 210
                 self.menuPanelView?.center = point!
                 }) { (Bool) -> Void in
                     println("close over")
-                    self.isMenuSpread = false
                     self.menuPanelView.hidden = true
             }
         }
@@ -125,6 +125,7 @@ class CaseViewController: ViewController,UIScrollViewDelegate {
     
     func popMenuBtnClick(target:UIButton!){
         if !isMenuSpread{
+            self.isMenuSpread = true
             self.menuPanelView.hidden = false
             UIView.animateWithDuration(1.0, animations: { () -> Void in
                 var point:CGPoint? = self.menuPanelView?.center
@@ -132,7 +133,6 @@ class CaseViewController: ViewController,UIScrollViewDelegate {
                 self.menuPanelView?.center = point!
                 }) { (Bool) -> Void in
                     println("close over")
-                    self.isMenuSpread = true
             }
         }
     }

@@ -6,6 +6,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MethodCaseViewController" customModule="DesignBase" customModuleProvider="target">
             <connections>
+                <outlet property="moreBtn" destination="sXQ-Lw-Ec6" id="NvN-L3-2vR"/>
                 <outlet property="scrollView" destination="WQl-gc-n5I" id="pSF-9S-2N6"/>
                 <outlet property="summary" destination="AeW-AS-mgS" id="v5H-Gm-LOe"/>
                 <outlet property="timeLabel" destination="Il3-4m-YoC" id="R7D-gR-kFp"/>
@@ -18,6 +19,9 @@
             <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
+                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" fixedFrame="YES" image="methodCaseBg" translatesAutoresizingMaskIntoConstraints="NO" id="qA9-5e-MnA">
+                    <rect key="frame" x="0.0" y="0.0" width="683" height="512"/>
+                </imageView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Il3-4m-YoC">
                     <rect key="frame" x="480" y="411" width="391" height="21"/>
                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
@@ -50,9 +54,6 @@
                 <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WQl-gc-n5I">
                     <rect key="frame" x="338" y="164" width="650" height="130"/>
                 </scrollView>
-                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" fixedFrame="YES" image="methodCaseBg" translatesAutoresizingMaskIntoConstraints="NO" id="qA9-5e-MnA">
-                    <rect key="frame" x="0.0" y="0.0" width="683" height="512"/>
-                </imageView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <nil key="simulatedStatusBarMetrics"/>
