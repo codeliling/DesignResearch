@@ -10,6 +10,4 @@ import UIKit
 
 class MenuCell: UITableViewCell {
     
-    
-    @IBOutlet weak var menuView: MenuView!
 }

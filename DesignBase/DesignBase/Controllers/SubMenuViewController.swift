@@ -37,10 +37,6 @@ class SubMenuViewController: UIViewController,UICollectionViewDataSource,UIColle
         collectionView?.registerClass(UICollectionViewCell.classForCoder(), forCellWithReuseIdentifier: "Cell")
         self.view.addSubview(collectionView!)
         
-        titleView = MenuView(frame: CGRectMake(10, 110, 130, 50))
-        titleView?.backgroundColor = lightGrayColor
-        self.view.addSubview(titleView!)
-        
         var lineLayer:CALayer = CALayer()
         lineLayer.frame = CGRectMake(23, 165, 170, 3)
         lineLayer.backgroundColor = blueColor.CGColor
@@ -57,26 +53,29 @@ class SubMenuViewController: UIViewController,UICollectionViewDataSource,UIColle
     func methodOfReceivedNotification(notification: NSNotification){
         //Action take on Notification
         var subMenuModel = notification.object as SubMenuModel
-        switch subMenuModel.type.rawValue{
-        case MenuType.CASE.rawValue:
-            println("...case \(subMenuModel.type.rawValue), \(subMenuModel.tableIndex)")
+        if titleView == nil{
+            titleView = MenuView(frame: CGRectMake(10, 110, 130, 50), chineseTitle: subMenuModel.cnName, enTitle: subMenuModel.enName)
+            titleView?.backgroundColor = lightGrayColor
+            self.view.addSubview(titleView!)
+        }
+        else{
             titleView?.chineseTitle = subMenuModel.cnName
             titleView?.enTitle = subMenuModel.enName
             titleView?.updateTextColor(blueColor)
             titleView?.setNeedsDisplay()
+        }
+        
+        switch subMenuModel.type.rawValue{
+        case MenuType.CASE.rawValue:
             addCaseSubMenuList(subMenuModel.tableIndex!)
         case MenuType.THEORY.rawValue:
             println("...theory \(subMenuModel.type.rawValue), \(subMenuModel.tableIndex)")
         case MenuType.METHOD.rawValue:
-            println("...method \(subMenuModel.type.rawValue), \(subMenuModel.tableIndex)")
-            titleView?.chineseTitle = subMenuModel.cnName
-            titleView?.enTitle = subMenuModel.enName
-            titleView?.updateTextColor(blueColor)
-            titleView?.setNeedsDisplay()
             addMethodSubMenuList(subMenuModel.tableIndex!)
         default:
             println("...fault type")
         }
+
     }
     
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
@@ -113,7 +112,7 @@ class SubMenuViewController: UIViewController,UICollectionViewDataSource,UIColle
                     isHasSubMenuView = true
                 }
             }
-            println(isHasSubMenuView)
+            
             if (!isHasSubMenuView)
             {
                 var subMenuView:SubMenuView = SubMenuView()
@@ -125,11 +124,11 @@ class SubMenuViewController: UIViewController,UICollectionViewDataSource,UIColle
                 else{
                     subMenuView.frame = CGRectMake(5, 10, 80, 56)
                 }
+                subMenuView.updateTextColor(UIColor(red: 102/255.0, green: 59/255.0, blue: 209/255.0, alpha: 1))
                 cell?.contentView.addSubview(subMenuView)
+                
             }
-            
         }
-        
         return cell!
     }
     
@@ -173,9 +172,23 @@ class SubMenuViewController: UIViewController,UICollectionViewDataSource,UIColle
     }
     
     func collectionView(collectionView: UICollectionView, willDisplayCell cell: UICollectionViewCell, forItemAtIndexPath indexPath: NSIndexPath) {
-        
+        if (indexPath.row == 0){
+            for subMenuView in cell.contentView.subviews{
+                if (subMenuView.isKindOfClass(SubMenuView.classForCoder()))
+                {
+                    var subMenu:SubMenuView = subMenuView as SubMenuView
+                    subMenu.updateTextColor(UIColor.whiteColor())
+                    subMenu.updateBgColor(UIColor(red: 102/255.0, green: 59/255.0, blue: 209/255.0, alpha: 1))
+                    subMenu.layer.insertSublayer(subMenu.bgLayer, atIndex: 0)
+                    lastCellSubMenuView = subMenu
+                }
+            }
+        }
     }
     
+    func collectionView(collectionView: UICollectionView, didEndDisplayingCell cell: UICollectionViewCell, forItemAtIndexPath indexPath: NSIndexPath) {
+        
+    }
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAtIndex section: Int) -> CGFloat {
         return 1

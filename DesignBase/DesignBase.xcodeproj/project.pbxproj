@@ -72,6 +72,7 @@
 		DBD7ED3C1B0C182400BECCF0 /* UIView+Toast.m in Sources */ = {isa = PBXBuildFile; fileRef = DBD7ED3B1B0C182400BECCF0 /* UIView+Toast.m */; };
 		DBD7ED451B0C5E0B00BECCF0 /* 404.css in Resources */ = {isa = PBXBuildFile; fileRef = DBD7ED421B0C5E0B00BECCF0 /* 404.css */; };
 		DBD7ED461B0C5E0B00BECCF0 /* 404.html in Resources */ = {isa = PBXBuildFile; fileRef = DBD7ED431B0C5E0B00BECCF0 /* 404.html */; };
+		DBF8B8451B18181500BC7350 /* TipsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBF8B8441B18181500BC7350 /* TipsView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -208,6 +209,7 @@
 		DBD7ED3B1B0C182400BECCF0 /* UIView+Toast.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Toast.m"; sourceTree = "<group>"; };
 		DBD7ED421B0C5E0B00BECCF0 /* 404.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = 404.css; sourceTree = "<group>"; };
 		DBD7ED431B0C5E0B00BECCF0 /* 404.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = 404.html; sourceTree = "<group>"; };
+		DBF8B8441B18181500BC7350 /* TipsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TipsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -403,6 +405,7 @@
 				DB688D9F1AE898380041D105 /* MenuView.swift */,
 				DB327FC21AE921B90049A766 /* SubMenuView.swift */,
 				DB4AE62E1B00A60D004C4265 /* FlowStepView.swift */,
+				DBF8B8441B18181500BC7350 /* TipsView.swift */,
 			);
 			path = views;
 			sourceTree = "<group>";
@@ -638,6 +641,7 @@
 				DBB92D021B05DFC20073E3F2 /* RelationCaseViewController.swift in Sources */,
 				DB6647921AE1520500222587 /* AppDelegate.swift in Sources */,
 				DB327FC31AE921BA0049A766 /* SubMenuView.swift in Sources */,
+				DBF8B8451B18181500BC7350 /* TipsView.swift in Sources */,
 				DB5332411B05EB9A008C36AC /* CaseListCell.swift in Sources */,
 				DBD7ED3C1B0C182400BECCF0 /* UIView+Toast.m in Sources */,
 				DBCBB6021AE9F33F00478ABF /* SubMenuModel.swift in Sources */,

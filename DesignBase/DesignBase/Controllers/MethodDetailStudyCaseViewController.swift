@@ -22,6 +22,7 @@ class MethodDetailStudyCaseViewController: UIViewController {
     let viewHeight:CGFloat = 167.0
     
     var data:NSArray?
+    var initFlag:Int = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,28 +30,34 @@ class MethodDetailStudyCaseViewController: UIViewController {
         textView = UITextView()
         
         textView.frame.size = CGSizeMake(150, 200)
-        textView.font = UIFont(name: "SourceHanSansCN-Normal", size: 12)
+        textView.font = UIFont(name: "SourceHanSansCN-Normal", size: 13)
         textView.backgroundColor = UIColor.clearColor()
         textView.hidden = true
         textView.textColor = UIColor.darkGrayColor()
-        textView.alpha = 0
+        
         
         self.view.addSubview(textView)
         
         bgImageView = UIImageView(image: UIImage(named: "textbg"))
         bgImageView?.frame.size = CGSizeMake(170, 230)
         bgImageView.hidden = true
+        bgImageView.alpha = 0.5
         self.view.addSubview(bgImageView)
     }
     
     override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(true)
+        super.viewDidAppear(animated)
+        println("view did appear")
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
         println("view did appear")
     }
     
     func addStepsView(){
         if data != nil{
-            
+            initFlag = 1
             if (data?.count == 3){
                 var i = 0
                 for dict in data!{
@@ -93,7 +100,6 @@ class MethodDetailStudyCaseViewController: UIViewController {
     }
     
     func swipAction(gesture:UIGestureRecognizer){
-        println("gesture")
         
         var viewTag:Int = 0
         if let view = gesture.view{

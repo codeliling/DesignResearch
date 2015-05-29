@@ -93,7 +93,8 @@ class RelationCaseViewController: ViewController,UICollectionViewDataSource,UICo
                     var studyCases:[Int] = dict.objectForKey("study_cases") as Array
                     if studyCases.count == 0{
                         self.view.hideToastActivity()
-                        self.view.makeToast("无关联案例", duration: 2.0, position:CSToastPositionCenter)
+                        self.view.makeToast("", duration: 2.0, position: CSToastPositionCenter, image: UIImage(named: "nothing"))
+                        
                     }
                     else{
                         self.view.hideToastActivity()

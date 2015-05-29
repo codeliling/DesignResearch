@@ -31,6 +31,8 @@ class MethodDetailViewController: UIViewController,UITableViewDataSource,UITable
     
     var popMenuBtn:UIButton!
     
+    var mainBundle:NSBundle?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -39,18 +41,18 @@ class MethodDetailViewController: UIViewController,UITableViewDataSource,UITable
         
         var view = UIView()
         view.backgroundColor = UIColor.clearColor()
-        tableView.tableFooterView = view;
-        //tableListView.backgroundView = nil
-        tableView.backgroundColor = UIColor(red: 102/255.0, green: 59/255.0, blue: 209/255.0, alpha: 1);
+        tableView.tableFooterView = view
+        tableView.backgroundColor = UIColor(red: 102/255.0, green: 59/255.0, blue: 209/255.0, alpha: 1)
         tableView.bounces = false
         
         tableView.delegate = self
         tableView.dataSource = self
         tableView.hidden = true
+        
         var backTap:UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "backTapClick:")
         backIcon.addGestureRecognizer(backTap)
         
-        var mainBundle:NSBundle = NSBundle.mainBundle()
+        mainBundle = NSBundle.mainBundle()
         self.mdscController = MethodDetailStudyCaseViewController(nibName:"methodProcessView",bundle:mainBundle)
         self.mdscController?.view.frame = CGRectMake(210, 0, 814, 768)
         self.addChildViewController(self.mdscController!)
@@ -83,12 +85,32 @@ class MethodDetailViewController: UIViewController,UITableViewDataSource,UITable
         super.viewDidAppear(animated)
         tableView.hidden = false
         animateTable()
+        
+        var first:NSIndexPath = NSIndexPath(forRow: 0, inSection: 0)
+        tableView.selectRowAtIndexPath(first, animated: true, scrollPosition: UITableViewScrollPosition.Top)
+        
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
 
+    func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+        //cell.backgroundColor = UIColor(red: 102/255.0, green: 59/255.0, blue: 209/255.0, alpha: 1)
+        if indexPath.row == 0{
+            var cell:MenuCell = cell as MenuCell
+            for subView in cell.contentView.subviews{
+                if (subView.isKindOfClass(MenuView.classForCoder()))
+                {
+                    var view:MenuView = subView as MenuView
+                    view.updateTextColor(UIColor(red: 102/255.0, green: 59/255.0, blue: 209/255.0, alpha: 1))
+                }
+            }
+            lastSelectRow = indexPath
+            
+        }
+    }
+    
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         var cellIdentifier:NSString = "Cell";
         var cell:MenuCell? = tableView.dequeueReusableCellWithIdentifier(cellIdentifier) as? MenuCell;
@@ -99,22 +121,22 @@ class MethodDetailViewController: UIViewController,UITableViewDataSource,UITable
             
         }
         
-        //cell?.backgroundColor = UIColor.clearColor()
-        
-        if var menuView:MenuView = cell?.menuView{
-            var dict:NSDictionary = methodDetailMenuList.objectAtIndex(indexPath.row) as NSDictionary
-            var cnName:String = dict.objectForKey("cnName") as String
-            var enName:String = dict.objectForKey("enName") as String
-            menuView.chineseTitle = cnName
-            menuView.enTitle = enName
-            menuView.backgroundColor = UIColor(red: 102/255.0, green: 59/255.0, blue: 209/255.0, alpha: 1)
-            menuView.updateTextColor(UIColor.whiteColor())
-            menuView.setNeedsDisplay()
-        }
-        
-        cell?.selectedBackgroundView.backgroundColor = UIColor(red: 247/255.0, green: 248/255.0, blue: 248/255.0, alpha: 1)
-        //cell?.selectionStyle = UITableViewCellSelectionStyle.None;
+        var dict:NSDictionary = methodDetailMenuList.objectAtIndex(indexPath.row) as NSDictionary
+        var cnName:String = dict.objectForKey("cnName") as String
+        var enName:String = dict.objectForKey("enName") as String
+        var menuView:MenuView = MenuView(frame: CGRectMake(0, 0, 195, 54), chineseTitle: cnName, enTitle: enName)
+        menuView.backgroundColor = UIColor(red: 102/255.0, green: 59/255.0, blue: 209/255.0, alpha: 1)
+        menuView.updateTextColor(UIColor.whiteColor())
+        cell?.contentView.addSubview(menuView)
+        var viewFrame:CGRect? = cell?.frame
+        cell?.selectedBackgroundView = UIView(frame: viewFrame!)
+        cell?.selectedBackgroundView.backgroundColor = UIColor.whiteColor()
         return cell!;
+    }
+    
+    override func viewDidLayoutSubviews() {
+        tableView.separatorInset = UIEdgeInsetsMake(0, 15, 100, 0)
+        tableView.layoutMargins = UIEdgeInsetsMake(0, 15, 100, 0)
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
@@ -129,32 +151,46 @@ class MethodDetailViewController: UIViewController,UITableViewDataSource,UITable
         return methodDetailMenuList.count;
     }
     
-    func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
-        //cell.backgroundColor = UIColor(red: 102/255.0, green: 59/255.0, blue: 209/255.0, alpha: 1)
+    func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath) {
+        
+        var cell:MenuCell? = tableView.cellForRowAtIndexPath(indexPath) as? MenuCell
+        if let views = cell?.contentView.subviews{
+            for subView in views{
+                if (subView.isKindOfClass(MenuView.classForCoder()))
+                {
+                    var view:MenuView = subView as MenuView
+                    view.updateTextColor(UIColor.whiteColor())
+                }
+            }
+        }
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         println(indexPath.row)
-        var cell:MenuCell?
-        println(lastSelectRow)
-        if lastSelectRow != nil{
-            cell = tableView.cellForRowAtIndexPath(lastSelectRow!) as? MenuCell
-            cell?.menuView.updateTextColor(UIColor.whiteColor())
+        var cell:MenuCell? = tableView.cellForRowAtIndexPath(indexPath) as? MenuCell
+       
+        if let views = cell?.contentView.subviews{
+            for subView in views{
+                if (subView.isKindOfClass(MenuView.classForCoder()))
+                {
+                    var view:MenuView = subView as MenuView
+                    view.updateTextColor(UIColor(red: 102/255.0, green: 59/255.0, blue: 209/255.0, alpha: 1))
+                }
+            }
         }
-        cell = tableView.cellForRowAtIndexPath(indexPath) as? MenuCell
-        cell?.menuView.updateTextColor(UIColor(red: 102/255.0, green: 59/255.0, blue: 209/255.0, alpha: 1))
-        
-        lastSelectRow = indexPath
         if indexPath.row == 2
         {
             mdscController?.view.hidden = false
+            //mdscController?.initTextView()
             webView.hidden = true
             mcController?.view.hidden = true
             
-            if (contentDict != nil){
-                var array:NSArray = self.contentDict?.objectForKey("process_list") as NSArray
-                mdscController?.data = array
-                mdscController?.addStepsView()
+            if (contentDict != nil ){
+                if (mdscController?.initFlag == 0){
+                    var array:NSArray = self.contentDict?.objectForKey("process_list") as NSArray
+                    mdscController?.data = array
+                    mdscController?.addStepsView()
+                }
             }
             else{
                 self.view.makeToast("无数据或者网络错误", duration: 2.0, position:CSToastPositionCenter)

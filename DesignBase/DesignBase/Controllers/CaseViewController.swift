@@ -9,7 +9,7 @@
 import UIKit
 import Alamofire
 
-class CaseViewController: ViewController,UIScrollViewDelegate {
+class CaseViewController: ViewController,UIScrollViewDelegate,UIWebViewDelegate {
     
     var lineLayer:CALayer?
     var menuView:MenuView?
@@ -55,6 +55,7 @@ class CaseViewController: ViewController,UIScrollViewDelegate {
         
         webView.backgroundColor = UIColor.whiteColor()
         webView.scrollView.delegate = self
+        webView.delegate = self
         
         popMenuBtn = UIButton(frame: CGRectMake(0, 0, 50, 50))
         popMenuBtn.setBackgroundImage(UIImage(named: "mainMenuBg"), forState: UIControlState.Normal)
@@ -62,6 +63,8 @@ class CaseViewController: ViewController,UIScrollViewDelegate {
         self.view.addSubview(popMenuBtn)
         
         self.view.bringSubviewToFront(menuPanelView!)
+        
+        
     }
     
     func loadingTheoryContent(url:String){
@@ -72,6 +75,19 @@ class CaseViewController: ViewController,UIScrollViewDelegate {
             if (error == nil){
                 var dict:NSDictionary = JSON as NSDictionary
                 self.webView.loadHTMLString(dict.objectForKey("content") as String, baseURL: nil)
+                var paragraphStyle:NSMutableParagraphStyle = NSMutableParagraphStyle();
+                paragraphStyle.lineHeightMultiple = 20.0;
+                paragraphStyle.maximumLineHeight = 20.0;
+                paragraphStyle.minimumLineHeight = 20.0;
+                
+                var ats:NSDictionary = [
+                    NSParagraphStyleAttributeName:paragraphStyle,
+                    NSForegroundColorAttributeName : UIColor.whiteColor(),
+                    NSFontAttributeName :UIFont.systemFontOfSize(15.0)
+                ]
+                
+                self.abstructTextView.attributedText = NSAttributedString(string: dict.objectForKey("abstract") as String, attributes: ats);
+                
                 self.abstructTextView.text = dict.objectForKey("abstract") as String
                 self.authorLabel.text = dict.objectForKey("author") as? String
                 self.authorNumLabel.text = dict.objectForKey("author_no") as? String
@@ -135,6 +151,22 @@ class CaseViewController: ViewController,UIScrollViewDelegate {
                     println("close over")
             }
         }
+    }
+    
+    
+    func webViewDidStartLoad(webView: UIWebView) {
+        println("start...")
+        self.view.makeToastActivity()
+    }
+    
+    func webViewDidFinishLoad(webView: UIWebView) {
+        println("finish...")
+        self.view.hideToastActivity()
+    }
+    
+    func webView(webView: UIWebView, didFailLoadWithError error: NSError) {
+        println("ERROR...")
+        
     }
     
     override func didReceiveMemoryWarning() {

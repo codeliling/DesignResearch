@@ -20,7 +20,6 @@ class MenuViewController:UIViewController,UITableViewDataSource,UITableViewDeleg
     var methodMenuList:NSMutableArray!
     var theorySubMenuList:NSArray?
     
-    var lastSelectRow:NSIndexPath?
     var currentType = MenuType.METHOD
     var isEyeClicked:Bool = false
     var isAboutIconClicked:Bool = false
@@ -48,12 +47,11 @@ class MenuViewController:UIViewController,UITableViewDataSource,UITableViewDeleg
         
         var view = UIView()
         view.backgroundColor = UIColor.clearColor()
-        tableListView.tableFooterView = view;
+        tableListView.tableFooterView = view
         //tableListView.backgroundView = nil
-        tableListView.backgroundColor = blueBg;
-        
+        tableListView.backgroundColor = blueBg
         tableListView.bounces = false
-        initMainMenu()
+        self.initMainMenu()
         
         var tabBackIcon:UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "clickBackIcon:")
         backIcon.addGestureRecognizer(tabBackIcon)
@@ -86,7 +84,6 @@ class MenuViewController:UIViewController,UITableViewDataSource,UITableViewDeleg
             {
                 return 80
             }
-            
         }
         else
         {
@@ -117,11 +114,7 @@ class MenuViewController:UIViewController,UITableViewDataSource,UITableViewDeleg
             titleSection.backgroundColor = UIColor.clearColor()
             view.addSubview(titleSection)
             view.backgroundColor = blueBg
-            /*
-            var lineLayer:CALayer = CALayer()
-            lineLayer.frame = lineFrame!
-            lineLayer.backgroundColor = UIColor.whiteColor().CGColor
-            view.layer.addSublayer(lineLayer)*/
+           
             return view
         }
         else
@@ -136,50 +129,49 @@ class MenuViewController:UIViewController,UITableViewDataSource,UITableViewDeleg
         
         var cell:MenuCell? = NSBundle.mainBundle().loadNibNamed("menuCell", owner: nil, options: nil)[0] as? MenuCell
         
-        /*
-        if (cell == nil)
-        {
-            cell = NSBundle.mainBundle().loadNibNamed("menuCell", owner: nil, options: nil)[0] as? MenuCell
-            
-        }*/
-        //cell?.backgroundColor = UIColor.clearColor()
-        /*
-        if (lastSelectRow != nil && currentType != MenuType.THEORY){
-            cell?.menuView.updateTextColor(UIColor.whiteColor())
-            cell?.menuView?.updateBgColor(UIColor(red: 102/255.0, green: 59/255.0, blue: 209/255.0, alpha: 1))
-        }*/
-        if var menuView:MenuView = cell?.menuView{
-            var dict:NSDictionary!
-            if currentType == MenuType.THEORY{
-                var tempDict:NSDictionary =  methodMenuList.objectAtIndex(indexPath.section) as NSDictionary
-                theorySubMenuList = tempDict.objectForKey("list") as? NSArray
-                dict = theorySubMenuList?.objectAtIndex(indexPath.row) as NSDictionary
-                menuView.updateFrame(10.0)
-            }
-            else
-            {
-                dict = methodMenuList.objectAtIndex(indexPath.row) as? NSDictionary
-                menuView.updateFrame(0.0)
-            }
-            var cnName:String = dict?.objectForKey("cnName") as String
-            
-            var enName:String = dict?.objectForKey("enName") as String
-            
-            menuView.chineseTitle = cnName
-            menuView.enTitle = enName
-            menuView.backgroundColor = UIColor(red: 102/255.0, green: 59/255.0, blue: 209/255.0, alpha: 1)
-            menuView.updateTextColor(UIColor.whiteColor())
-            //menuView.setNeedsDisplay()
-            
+        var dict:NSDictionary!
+        if currentType == MenuType.THEORY{
+            var tempDict:NSDictionary =  methodMenuList.objectAtIndex(indexPath.section) as NSDictionary
+            theorySubMenuList = tempDict.objectForKey("list") as? NSArray
+            dict = theorySubMenuList?.objectAtIndex(indexPath.row) as NSDictionary
         }
+        else
+        {
+            dict = methodMenuList.objectAtIndex(indexPath.row) as? NSDictionary
+        }
+        var cnName:String = dict?.objectForKey("cnName") as String
+        var enName:String = dict?.objectForKey("enName") as String
+        var menuView:MenuView = MenuView(frame: CGRectMake(0, 0, 210, 54), chineseTitle: cnName, enTitle: enName)
+    
+        menuView.backgroundColor = UIColor(red: 102/255.0, green: 59/255.0, blue: 209/255.0, alpha: 1)
+        menuView.updateTextColor(UIColor.whiteColor())
+        cell?.contentView.addSubview(menuView)
         
-        //cell?.selectedBackgroundView.backgroundColor = UIColor(red: 247/255.0, green: 248/255.0, blue: 248/255.0, alpha: 1)
-        cell?.selectionStyle = UITableViewCellSelectionStyle.None;
+        var viewFrame:CGRect? = cell?.frame
+        cell?.selectedBackgroundView = UIView(frame: viewFrame!)
+        cell?.selectedBackgroundView.backgroundColor = UIColor.whiteColor()
+        cell?.separatorInset = UIEdgeInsetsMake(0, 15, 0, 0)
+        cell?.layoutMargins = UIEdgeInsetsMake(0, 15, 0, 0)
+        cell?.preservesSuperviewLayoutMargins = false
         return cell!;
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         return 55
+    }
+    
+    func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath) {
+        
+        var cell:MenuCell? = tableView.cellForRowAtIndexPath(indexPath) as? MenuCell
+        if let views = cell?.contentView.subviews{
+            for subView in views{
+                if (subView.isKindOfClass(MenuView.classForCoder()))
+                {
+                    var view:MenuView = subView as MenuView
+                    view.updateTextColor(UIColor.whiteColor())
+                }
+            }
+        }
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -198,30 +190,46 @@ class MenuViewController:UIViewController,UITableViewDataSource,UITableViewDeleg
         //cell.backgroundColor = UIColor(red: 102/255.0, green: 59/255.0, blue: 209/255.0, alpha: 1)
         if (currentType == MenuType.THEORY) && indexPath.row == 0 && indexPath.section == 0{
             
-            var cell:MenuCell = cell as MenuCell
-            cell.menuView.updateTextColor(UIColor(red: 102/255.0, green: 59/255.0, blue: 209/255.0, alpha: 1))
-            //cell.menuView.updateBgColor(UIColor.whiteColor())
-            
-            lastSelectRow = indexPath
-
+            for subView in cell.contentView.subviews{
+                if (subView.isKindOfClass(MenuView.classForCoder()))
+                {
+                    var view:MenuView = subView as MenuView
+                    view.updateTextColor(UIColor(red: 102/255.0, green: 59/255.0, blue: 209/255.0, alpha: 1))
+                    view.backgroundColor = UIColor.whiteColor()
+                }
+            }
         }
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         println(indexPath.row)
-        var cell:MenuCell?
-        if lastSelectRow != nil{
-            cell = tableView.cellForRowAtIndexPath(lastSelectRow!) as? MenuCell
-            
-            cell?.menuView.updateTextColor(UIColor.whiteColor())
-            cell?.menuView?.updateBgColor(UIColor(red: 102/255.0, green: 59/255.0, blue: 209/255.0, alpha: 1))
-        }
-        cell = tableView.cellForRowAtIndexPath(indexPath) as? MenuCell
-        cell?.menuView.updateTextColor(UIColor(red: 102/255.0, green: 59/255.0, blue: 209/255.0, alpha: 1))
-       
-        cell?.menuView?.updateBgColor(UIColor.whiteColor())
         
-        lastSelectRow = indexPath
+        if ((currentType == MenuType.THEORY) && ((indexPath.row != 0) || (indexPath.section != 0))){
+            var first:NSIndexPath = NSIndexPath(forRow: 0, inSection: 0)
+            var firstCell:MenuCell? = tableView.cellForRowAtIndexPath(first) as? MenuCell
+            
+            if let views = firstCell?.contentView.subviews{
+                for subView in views{
+                    if (subView.isKindOfClass(MenuView.classForCoder()))
+                    {
+                        var view:MenuView = subView as MenuView
+                        view.updateTextColor(UIColor.whiteColor())
+                        view.backgroundColor = UIColor(red: 102/255.0, green: 59/255.0, blue: 209/255.0, alpha: 1)
+                    }
+                }
+            }
+        }
+        
+        var cell:MenuCell? = tableView.cellForRowAtIndexPath(indexPath) as? MenuCell
+        if let views = cell?.contentView.subviews{
+            for subView in views{
+                if (subView.isKindOfClass(MenuView.classForCoder()))
+                {
+                    var view:MenuView = subView as MenuView
+                    view.updateTextColor(UIColor(red: 102/255.0, green: 59/255.0, blue: 209/255.0, alpha: 1))
+                }
+            }
+        }
         var subMenuModel:SubMenuModel = SubMenuModel()
         
         switch currentType{
@@ -234,7 +242,6 @@ class MenuViewController:UIViewController,UITableViewDataSource,UITableViewDeleg
         case .METHOD:
             println("method")
             subMenuModel.type = MenuType.METHOD
-           
         }
         
         if (currentType.rawValue != MenuType.THEORY.rawValue){
@@ -250,7 +257,6 @@ class MenuViewController:UIViewController,UITableViewDataSource,UITableViewDeleg
             }
             NSNotificationCenter.defaultCenter().postNotificationName("SubAnimationMenuNotification", object: "OPEN")
             NSNotificationCenter.defaultCenter().postNotificationName("addSubMenuNotification", object: subMenuModel)
-            
             
         }
         else{
@@ -281,19 +287,19 @@ class MenuViewController:UIViewController,UITableViewDataSource,UITableViewDeleg
             var methodList:NSMutableArray = NSMutableArray(contentsOfFile: plistpath!)!
             var methodArray:Array = [MethodModel]()
             var methodModel:MethodModel?
-            for dict in methodList{
+            if methodList.count > 0{
+                var dict:NSDictionary = methodList.objectAtIndex(0) as NSDictionary
+                
                 var list:NSArray = dict.objectForKey("list") as NSArray
                 for tempDict in list{
                     methodModel = MethodModel()
                     methodModel?.cnName = tempDict.objectForKey("cnName") as? String
-                    println(methodModel?.cnName)
                     methodModel?.iconName = tempDict.objectForKey("iconName") as String
-                    println(methodModel?.iconName)
                     methodModel?.flag = tempDict.objectForKey("flag") as? String
-                    println(methodModel?.flag)
                     methodArray.append(methodModel!)
                 }
             }
+            
             NSNotificationCenter.defaultCenter().postNotificationName("ListContentNotification", object: methodArray)
         }
         else if (currentType.rawValue == MenuType.CASE.rawValue){
@@ -315,7 +321,8 @@ class MenuViewController:UIViewController,UITableViewDataSource,UITableViewDeleg
             var caseList:NSMutableArray = NSMutableArray(contentsOfFile: plistpath!)!
             var caseArray:Array = [MethodModel]()
             var caseModel:MethodModel?
-            for dict in caseList{
+            if caseList.count > 0{
+                var dict:NSDictionary = caseList.objectAtIndex(0) as NSDictionary
                 var list:NSArray = dict.objectForKey("list") as NSArray
                 for tempDict in list{
                     caseModel = MethodModel()
@@ -326,6 +333,7 @@ class MenuViewController:UIViewController,UITableViewDataSource,UITableViewDeleg
                     caseArray.append(caseModel!)
                 }
             }
+            
             NSNotificationCenter.defaultCenter().postNotificationName("ListContentNotification", object: caseArray)
         }
     }
@@ -433,6 +441,7 @@ class MenuViewController:UIViewController,UITableViewDataSource,UITableViewDeleg
                             eysImageView.hidden = true
                             aboutIcon.hidden = true
                             NSNotificationCenter.defaultCenter().postNotificationName("TypeMenuNotification", object: MenuType.THEORY.rawValue)
+                            
                         }
                         else if view.tag == MenuType.METHOD.rawValue{
                             //方法

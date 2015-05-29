@@ -104,9 +104,10 @@
                                             <constraint firstAttribute="height" constant="50" id="y8L-bV-O61"/>
                                         </constraints>
                                     </imageView>
-                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="RHK-ey-BXC">
+                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="RHK-ey-BXC">
                                         <rect key="frame" x="0.0" y="193" width="200" height="574"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <color key="separatorColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                     </tableView>
                                     <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" fixedFrame="YES" image="line" translatesAutoresizingMaskIntoConstraints="NO" id="ohd-KQ-w9Z">
                                         <rect key="frame" x="209" y="0.0" width="13" height="768"/>
@@ -299,6 +300,6 @@
     </scenes>
     <resources>
         <image name="line" width="13" height="768"/>
-        <image name="mainMenuBg" width="67" height="67"/>
+        <image name="mainMenuBg" width="51" height="51"/>
     </resources>
 </document>

@@ -17,6 +17,9 @@ class SubMenuView: UIView {
     
     override init() {
         super.init()
+        chineseMenu = CATextLayer()
+        enMenu = CATextLayer()
+        bgLayer = CALayer()
     }
     
     override init(frame: CGRect) {
@@ -27,6 +30,7 @@ class SubMenuView: UIView {
         super.init(frame: frame)
         self.chineseTitle = chineseTitle
         self.enTitle = enTitle
+        
     }
 
     required init(coder aDecoder: NSCoder) {
@@ -36,12 +40,14 @@ class SubMenuView: UIView {
     
     override func drawRect(rect: CGRect) {
         var retinaScreen:Bool = (UIScreen.mainScreen().currentMode?.size.width == 1024)
-        bgLayer = CALayer()
-        bgLayer.frame = CGRectMake(0, 0, 80, 56)
-        self.layer.addSublayer(bgLayer)
         
-        if chineseMenu == nil{
-            chineseMenu = CATextLayer()
+        if bgLayer != nil{
+            bgLayer.frame = CGRectMake(0, 0, 80, 56)
+            self.layer.addSublayer(bgLayer)
+        }
+        
+        if chineseMenu != nil{
+            
             let fontName: CFStringRef = "SourceHanSansCN-Normal"
             //let fontName:CFStringRef = "Helvetica"
             chineseMenu.font = CTFontCreateWithName(fontName, 14, nil)
@@ -55,14 +61,14 @@ class SubMenuView: UIView {
             {
                 chineseMenu.contentsScale = 2.0
             }
-            chineseMenu.foregroundColor = UIColor(red: 102/255.0, green: 59/255.0, blue: 209/255.0, alpha: 1).CGColor
+            chineseMenu.string = chineseTitle
             self.layer.addSublayer(chineseMenu)
         }
-        chineseMenu.string = chineseTitle
         
         
-        if enMenu == nil{
-            enMenu = CATextLayer()
+        
+        if enMenu != nil{
+            
             let enFontName:CFStringRef = "Candara"
             enMenu.font = CTFontCreateWithName(enFontName, 8, nil)
             enMenu.frame = CGRectMake(8, 35, 80, 30)
@@ -75,10 +81,10 @@ class SubMenuView: UIView {
             {
                 enMenu.contentsScale = 2.0
             }
-            enMenu.foregroundColor = UIColor(red: 102/255.0, green: 59/255.0, blue: 209/255.0, alpha: 1).CGColor
+            enMenu.string = enTitle
             self.layer.addSublayer(enMenu)
         }
-        enMenu.string = enTitle
+        
         var path:CGMutablePathRef = CGPathCreateMutable()
         var rect:CGRect = CGRectMake(0, 0, 80, 56);
         CGPathAddRect(path, nil, rect)
@@ -98,5 +104,6 @@ class SubMenuView: UIView {
     
     func updateBgColor(color:UIColor){
         bgLayer.backgroundColor = color.CGColor!
+        
     }
 }

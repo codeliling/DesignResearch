@@ -29,6 +29,8 @@ class MethodCaseViewController: UIViewController,UIScrollViewDelegate {
     
     @IBOutlet weak var moreBtn: UIButton!
     
+    var tipsView:TipsView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -36,6 +38,7 @@ class MethodCaseViewController: UIViewController,UIScrollViewDelegate {
         magnifierView.viewToMagnify = self.view
         magnifierView.touchPoint = CGPointMake(665, 230)
         magnifierView.backgroundColor = UIColor.clearColor()
+        magnifierView.userInteractionEnabled = false
         self.view.addSubview(magnifierView)
        
         webView = UIWebView(frame: CGRectMake(0, 768, 1024, 768))
@@ -50,6 +53,12 @@ class MethodCaseViewController: UIViewController,UIScrollViewDelegate {
         closeImage?.hidden = true
         
         webView.addSubview(closeImage!)
+        
+        tipsView = TipsView()
+        tipsView.center = CGPointMake((1024 - 210)/2 + 105, 768/2 - 100)
+        tipsView.frame.size = CGSizeMake(125, 68)
+        tipsView.hidden = true
+        self.view.addSubview(tipsView)
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -64,8 +73,10 @@ class MethodCaseViewController: UIViewController,UIScrollViewDelegate {
     func initScrollView(){
         
         if caseList.count == 0{
-            self.view.makeToast("无关联案例", duration: 2.0, position:CSToastPositionCenter)
+            //self.view.makeToast("无关联案例", duration: 2.0, position:CSToastPositionCenter)
+            tipsView.showNothingTips()
             moreBtn.hidden = true
+            magnifierView.hidden = true
         }
         else
         {
@@ -107,8 +118,6 @@ class MethodCaseViewController: UIViewController,UIScrollViewDelegate {
             scrollView.delegate = self
             scrollView.bounces = false
         }
-        
-        
     }
     
     func refreshMagnifier(){
@@ -170,6 +179,7 @@ class MethodCaseViewController: UIViewController,UIScrollViewDelegate {
                 self.summary.text = dict.objectForKey("abstract") as? String
                 self.moreContent = dict.objectForKey("content") as? String
             }
+            
             self.view.hideToastActivity()
         })
     }

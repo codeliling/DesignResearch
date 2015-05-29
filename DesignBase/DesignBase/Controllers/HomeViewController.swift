@@ -37,6 +37,7 @@ class HomeViewController:UIViewController,UICollectionViewDataSource, UICollecti
     
     var aboutView:UIView!
     var offset:CGFloat = 0.0
+    var tipsView:TipsView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -135,6 +136,13 @@ class HomeViewController:UIViewController,UICollectionViewDataSource, UICollecti
         aboutPanelCloseBtn.addTarget(self, action: "aboutPanelClose:", forControlEvents: UIControlEvents.TouchUpInside)
         aboutView.addSubview(aboutPanelCloseBtn)
         self.view.addSubview(aboutView)
+        
+        tipsView = TipsView()
+        tipsView.center = CGPointMake((1024 - 420)/2 + 310, 768/2 - 100)
+        tipsView.frame.size = CGSizeMake(125, 68)
+        tipsView.hidden = true
+        self.view.addSubview(tipsView)
+        
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -321,6 +329,9 @@ class HomeViewController:UIViewController,UICollectionViewDataSource, UICollecti
                 
                 methodList.append(methodModel)
             }
+            if (methodList.count == 0){
+                tipsView.showNothingTips()
+            }
             collectionView.reloadData()
             
             if isAddPanel{
@@ -343,6 +354,9 @@ class HomeViewController:UIViewController,UICollectionViewDataSource, UICollecti
                 
                 methodList.append(methodModel)
             }
+            if (methodList.count == 0){
+                tipsView.showNothingTips()
+            }
            collectionView.reloadData()
             if isAddPanel{
                 self.panel.hidden = false
@@ -359,9 +373,10 @@ class HomeViewController:UIViewController,UICollectionViewDataSource, UICollecti
         for methodModel in array{
             methodList.append(methodModel)
         }
+        
         collectionView.reloadData()
         if array.count == 0{
-            println("no data")
+            tipsView.showNothingTips()
         }
     }
     

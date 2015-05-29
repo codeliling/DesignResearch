@@ -30,10 +30,12 @@ class TheoryViewController: ViewController,UIWebViewDelegate,UIScrollViewDelegat
     
     func webViewDidStartLoad(webView: UIWebView) {
         println("start...")
+        self.view.makeToastActivity()
     }
     
     func webViewDidFinishLoad(webView: UIWebView) {
         println("finish...")
+        self.view.hideToastActivity()
     }
     
     func webView(webView: UIWebView, didFailLoadWithError error: NSError) {

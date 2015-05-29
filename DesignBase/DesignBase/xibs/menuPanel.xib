@@ -28,7 +28,7 @@
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" style="plain" allowsSelectionDuringEditing="YES" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="fMf-P7-Fn3">
                     <rect key="frame" x="0.0" y="231" width="200" height="537"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    <color key="separatorColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <color key="separatorColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                 </tableView>
                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="mask" translatesAutoresizingMaskIntoConstraints="NO" id="7Oh-a3-vX5">
                     <rect key="frame" x="0.0" y="86" width="210" height="100"/>
@@ -83,7 +83,7 @@
         <image name="about" width="61" height="26"/>
         <image name="eyeBtnNormal" width="36" height="26"/>
         <image name="line" width="13" height="768"/>
-        <image name="mainMenuBg" width="67" height="67"/>
+        <image name="mainMenuBg" width="51" height="51"/>
         <image name="mask" width="210" height="100"/>
     </resources>
 </document>

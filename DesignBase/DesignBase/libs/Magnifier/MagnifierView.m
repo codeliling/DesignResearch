@@ -23,7 +23,7 @@
         
         CALayer *maskLayer = [CALayer new];
         maskLayer.frame = CGRectMake(-13, -25, 200, 200);
-        maskLayer.contents = (id)[UIImage imageNamed:@"panelBg"].CGImage;
+        maskLayer.contents = (id)[UIImage imageNamed:@"magnifier"].CGImage;
         [self.layer addSublayer:maskLayer];
         self.layer.borderWidth = 0;
         
