@@ -22,7 +22,7 @@ class TheoryViewController: ViewController,UIWebViewDelegate,UIScrollViewDelegat
         webView.scalesPageToFit = true
         for view in webView.subviews{
             if view.isKindOfClass(UIScrollView.classForCoder()){
-                var scrlllView:UIScrollView = view as UIScrollView
+                var scrlllView:UIScrollView = view as! UIScrollView
                 scrlllView.showsHorizontalScrollIndicator = false
             }
         }

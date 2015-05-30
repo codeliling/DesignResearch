@@ -168,20 +168,22 @@ class MethodCaseViewController: UIViewController,UIScrollViewDelegate {
     func loadCase(caseId:Int){
         var url:String = RequestURL.ServerCaseURL + String(caseId)
         self.view.makeToastActivity()
-        Alamofire.request(.GET, url).responseJSON({ (_, _, JSON, error) -> Void in
-            println(error)
-            if (error == nil){
-                println(JSON)
-                var dict:NSDictionary =  JSON as NSDictionary
-                self.titleView.text = dict.objectForKey("name") as? String
-                println(dict.objectForKey("name") as? String)
-                self.timeLabel.text = dict.objectForKey("date_record") as? String
-                self.summary.text = dict.objectForKey("abstract") as? String
-                self.moreContent = dict.objectForKey("content") as? String
-            }
-            
-            self.view.hideToastActivity()
-        })
+        Alamofire.request(.GET, url)
+            .responseJSON { (_, _, JSON, error) in
+                println(error)
+                if (error == nil){
+                    println(JSON)
+                    var dict:NSDictionary =  JSON as! NSDictionary
+                    self.titleView.text = dict.objectForKey("name") as? String
+                    println(dict.objectForKey("name") as? String)
+                    self.timeLabel.text = dict.objectForKey("date_record") as? String
+                    self.summary.text = dict.objectForKey("abstract") as? String
+                    self.moreContent = dict.objectForKey("content") as? String
+                }
+                
+                self.view.hideToastActivity()
+        }
+       
     }
     
     @IBAction func moreBtnClick(sender: AnyObject) {

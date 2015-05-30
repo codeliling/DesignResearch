@@ -15,8 +15,8 @@ class SubMenuView: UIView {
     var enTitle:String!
     var bgLayer:CALayer!
     
-    override init() {
-        super.init()
+    convenience init() {
+        self.init(frame:CGRectZero)
         chineseMenu = CATextLayer()
         enMenu = CATextLayer()
         bgLayer = CALayer()

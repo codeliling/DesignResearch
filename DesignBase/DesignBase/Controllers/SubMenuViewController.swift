@@ -52,10 +52,11 @@ class SubMenuViewController: UIViewController,UICollectionViewDataSource,UIColle
     
     func methodOfReceivedNotification(notification: NSNotification){
         //Action take on Notification
-        var subMenuModel = notification.object as SubMenuModel
+        var subMenuModel = notification.object as! SubMenuModel
         if titleView == nil{
             titleView = MenuView(frame: CGRectMake(10, 110, 130, 50), chineseTitle: subMenuModel.cnName, enTitle: subMenuModel.enName)
             titleView?.backgroundColor = lightGrayColor
+            titleView?.updateTextColor(blueColor)
             self.view.addSubview(titleView!)
         }
         else{
@@ -87,7 +88,7 @@ class SubMenuViewController: UIViewController,UICollectionViewDataSource,UIColle
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        var dict:NSDictionary = subMenuData?.objectAtIndex(indexPath.row) as NSDictionary
+        var dict:NSDictionary = subMenuData?.objectAtIndex(indexPath.row) as! NSDictionary
         var cell:UICollectionViewCell? = collectionView.dequeueReusableCellWithReuseIdentifier("Cell", forIndexPath: indexPath) as? UICollectionViewCell
         println(indexPath.row)
         
@@ -96,9 +97,9 @@ class SubMenuViewController: UIViewController,UICollectionViewDataSource,UIColle
             for subMenuView in views{
                 if (subMenuView.isKindOfClass(SubMenuView.classForCoder()))
                 {
-                    var subMenuView = subMenuView as SubMenuView
-                    subMenuView.chineseTitle = dict.objectForKey("cnName") as String
-                    subMenuView.enTitle = dict.objectForKey("enName") as String
+                    var subMenuView = subMenuView as! SubMenuView
+                    subMenuView.chineseTitle = dict.objectForKey("cnName") as! String
+                    subMenuView.enTitle = dict.objectForKey("enName") as! String
                     subMenuView.bgLayer.backgroundColor = UIColor.clearColor().CGColor!
                     subMenuView.updateTextColor(blueColor)
                     subMenuView.setNeedsDisplay()
@@ -116,8 +117,8 @@ class SubMenuViewController: UIViewController,UICollectionViewDataSource,UIColle
             if (!isHasSubMenuView)
             {
                 var subMenuView:SubMenuView = SubMenuView()
-                subMenuView.chineseTitle = dict.objectForKey("cnName") as String
-                subMenuView.enTitle = dict.objectForKey("enName") as String
+                subMenuView.chineseTitle = dict.objectForKey("cnName") as! String
+                subMenuView.enTitle = dict.objectForKey("enName") as! String
                 if (indexPath.row % 2 == 0){
                     subMenuView.frame = CGRectMake(20, 10, 80, 56)
                 }
@@ -134,12 +135,12 @@ class SubMenuViewController: UIViewController,UICollectionViewDataSource,UIColle
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         println("\(indexPath.row) is click...")
-        var dict:NSDictionary = subMenuData?.objectAtIndex(indexPath.row) as NSDictionary
+        var dict:NSDictionary = subMenuData?.objectAtIndex(indexPath.row) as! NSDictionary
         var methodList =  [MethodModel]()
         
         var mModel:MethodModel;
-        for methodModel in dict.objectForKey("list") as NSArray{
-            var dict:NSDictionary = methodModel as NSDictionary
+        for methodModel in dict.objectForKey("list") as! NSArray{
+            var dict:NSDictionary = methodModel as! NSDictionary
             mModel = MethodModel()
             mModel.cnName = dict.objectForKey("cnName") as? String
             mModel.flag = dict.objectForKey("flag") as? String
@@ -160,7 +161,7 @@ class SubMenuViewController: UIViewController,UICollectionViewDataSource,UIColle
         for subMenuView in cell.contentView.subviews{
             if (subMenuView.isKindOfClass(SubMenuView.classForCoder()))
             {
-                var subMenu:SubMenuView = subMenuView as SubMenuView
+                var subMenu:SubMenuView = subMenuView as! SubMenuView
                 subMenu.updateTextColor(UIColor.whiteColor())
                 subMenu.updateBgColor(UIColor(red: 102/255.0, green: 59/255.0, blue: 209/255.0, alpha: 1))
                 subMenu.layer.insertSublayer(subMenu.bgLayer, atIndex: 0)
@@ -176,7 +177,7 @@ class SubMenuViewController: UIViewController,UICollectionViewDataSource,UIColle
             for subMenuView in cell.contentView.subviews{
                 if (subMenuView.isKindOfClass(SubMenuView.classForCoder()))
                 {
-                    var subMenu:SubMenuView = subMenuView as SubMenuView
+                    var subMenu:SubMenuView = subMenuView as! SubMenuView
                     subMenu.updateTextColor(UIColor.whiteColor())
                     subMenu.updateBgColor(UIColor(red: 102/255.0, green: 59/255.0, blue: 209/255.0, alpha: 1))
                     subMenu.layer.insertSublayer(subMenu.bgLayer, atIndex: 0)

@@ -70,48 +70,50 @@ class CaseViewController: ViewController,UIScrollViewDelegate,UIWebViewDelegate 
     func loadingTheoryContent(url:String){
         println(url)
         self.view.makeToastActivity()
-        Alamofire.request(.GET, url).responseJSON({ (_, _, JSON, error) -> Void in
-            println(error)
-            if (error == nil){
-                var dict:NSDictionary = JSON as NSDictionary
-                self.webView.loadHTMLString(dict.objectForKey("content") as String, baseURL: nil)
-                var paragraphStyle:NSMutableParagraphStyle = NSMutableParagraphStyle();
-                paragraphStyle.lineHeightMultiple = 20.0;
-                paragraphStyle.maximumLineHeight = 20.0;
-                paragraphStyle.minimumLineHeight = 20.0;
-                
-                var ats:NSDictionary = [
-                    NSParagraphStyleAttributeName:paragraphStyle,
-                    NSForegroundColorAttributeName : UIColor.whiteColor(),
-                    NSFontAttributeName :UIFont.systemFontOfSize(15.0)
-                ]
-                
-                self.abstructTextView.attributedText = NSAttributedString(string: dict.objectForKey("abstract") as String, attributes: ats);
-                
-                self.abstructTextView.text = dict.objectForKey("abstract") as String
-                self.authorLabel.text = dict.objectForKey("author") as? String
-                self.authorNumLabel.text = dict.objectForKey("author_no") as? String
-                if let teacher = dict.objectForKey("mentor") as? String{
-                    self.teacherLabel.text = "指导老师:" + teacher
-                }
-                
-                for view in self.webView.subviews{
-                    if view.isKindOfClass(UIScrollView.classForCoder()){
-                        var scrollView:UIScrollView = view as UIScrollView
-                        scrollView.showsHorizontalScrollIndicator = false
-                        scrollView.alwaysBounceHorizontal = true
+        Alamofire.request(.GET, url)
+            .responseJSON { (_, _, JSON, error) in
+                println(error)
+                if (error == nil){
+                    var dict:NSDictionary = JSON as! NSDictionary
+                    self.webView.loadHTMLString(dict.objectForKey("content") as! String, baseURL: nil)
+                    var paragraphStyle:NSMutableParagraphStyle = NSMutableParagraphStyle();
+                    paragraphStyle.lineHeightMultiple = 20.0;
+                    paragraphStyle.maximumLineHeight = 20.0;
+                    paragraphStyle.minimumLineHeight = 20.0;
+                    
+                    var ats:NSDictionary = [
+                        NSParagraphStyleAttributeName:paragraphStyle,
+                        NSForegroundColorAttributeName : UIColor.whiteColor(),
+                        NSFontAttributeName :UIFont.systemFontOfSize(15.0)
+                    ]
+                    
+                    self.abstructTextView.attributedText = NSAttributedString(string: dict.objectForKey("abstract") as! String, attributes: ats as [NSObject : AnyObject]);
+                    
+                    self.abstructTextView.text = dict.objectForKey("abstract") as! String
+                    self.authorLabel.text = dict.objectForKey("author") as? String
+                    self.authorNumLabel.text = dict.objectForKey("author_no") as? String
+                    if let teacher = dict.objectForKey("mentor") as? String{
+                        self.teacherLabel.text = "指导老师:" + teacher
+                    }
+                    
+                    for view in self.webView.subviews{
+                        if view.isKindOfClass(UIScrollView.classForCoder()){
+                            var scrollView:UIScrollView = view as! UIScrollView
+                            scrollView.showsHorizontalScrollIndicator = false
+                            scrollView.alwaysBounceHorizontal = true
+                        }
                     }
                 }
-            }
-            else
-            {
-                var filePath:String! = NSBundle.mainBundle().pathForResource("404", ofType: "html")
-                var url:NSURL = NSURL(string: filePath, relativeToURL: NSURL(fileURLWithPath: filePath.stringByDeletingLastPathComponent, isDirectory: true))!
-                var request:NSURLRequest = NSURLRequest(URL: url)
-                self.webView.loadRequest(request)
-            }
-            self.view.hideToastActivity()
-        })
+                else
+                {
+                    var filePath:String! = NSBundle.mainBundle().pathForResource("404", ofType: "html")
+                    var url:NSURL = NSURL(string: filePath, relativeToURL: NSURL(fileURLWithPath: filePath.stringByDeletingLastPathComponent, isDirectory: true))!
+                    var request:NSURLRequest = NSURLRequest(URL: url)
+                    self.webView.loadRequest(request)
+                }
+                self.view.hideToastActivity()
+        }
+        
     }
     
     override func viewDidAppear(animated: Bool) {

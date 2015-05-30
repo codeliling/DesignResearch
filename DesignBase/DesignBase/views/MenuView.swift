@@ -15,8 +15,8 @@ class MenuView: UIView {
     var chineseTitle:String!
     var enTitle:String!
     
-    override init() {
-        super.init()
+    convenience init() {
+        self.init(frame:CGRectZero)
     }
 
     override init(frame: CGRect) {

@@ -11,13 +11,14 @@ import Foundation
 
 class TipsView: UIView {
     
-    override init() {
-        super.init()
+    convenience init(){
+        self.init(frame:CGRectZero)
         self.layer.contents = UIImage(named: "nothing")?.CGImage
     }
 
     override init(frame: CGRect) {
         super.init(frame: frame)
+        
     }
     
     required init(coder aDecoder: NSCoder) {

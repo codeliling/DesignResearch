@@ -51,8 +51,8 @@ class RelationCaseViewController: ViewController,UICollectionViewDataSource,UICo
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        var methodModel:MethodModel = dataList[indexPath.row] as MethodModel
-        var imageCell:CaseListCell = collectionView.dequeueReusableCellWithReuseIdentifier("Cell", forIndexPath: indexPath) as CaseListCell
+        var methodModel:MethodModel = dataList[indexPath.row] as! MethodModel
+        var imageCell:CaseListCell = collectionView.dequeueReusableCellWithReuseIdentifier("Cell", forIndexPath: indexPath) as! CaseListCell
         imageCell.image.image = UIImage(named: methodModel.iconName)
         
         return imageCell
@@ -60,8 +60,8 @@ class RelationCaseViewController: ViewController,UICollectionViewDataSource,UICo
     }
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        var methodModel:MethodModel = dataList.objectAtIndex(indexPath.row) as MethodModel
-        var detailViewController = self.storyboard?.instantiateViewControllerWithIdentifier("caseDetail") as CaseViewController
+        var methodModel:MethodModel = dataList.objectAtIndex(indexPath.row) as! MethodModel
+        var detailViewController = self.storyboard?.instantiateViewControllerWithIdentifier("caseDetail") as! CaseViewController
         println(methodModel.cnName)
         detailViewController.chineseTitle = methodModel.cnName
         detailViewController.enTitle = methodModel.enName
@@ -86,52 +86,53 @@ class RelationCaseViewController: ViewController,UICollectionViewDataSource,UICo
         if methodId != nil{
             var url:String = RequestURL.ServerMethodURL + methodId!
             println(url)
-            Alamofire.request(.GET, url).responseJSON({ (_, _, JSON, error) -> Void in
-                println(JSON)
-                if (error == nil){
-                    var dict:NSDictionary = JSON as NSDictionary
-                    var studyCases:[Int] = dict.objectForKey("study_cases") as Array
-                    if studyCases.count == 0{
-                        self.view.hideToastActivity()
-                        self.view.makeToast("", duration: 2.0, position: CSToastPositionCenter, image: UIImage(named: "nothing"))
-                        
-                    }
-                    else{
-                        self.view.hideToastActivity()
-                        var methodModel:MethodModel?
-                        for i in studyCases{
-                            methodModel = MethodModel()
-                            if (i > 9){
-                                methodModel?.iconName = "S1408W0" + String(i)
-                            }
-                            else{
-                                methodModel?.iconName = "S1408W00" + String(i)
-                            }
-                            methodModel?.flag = String(i)
-                            if (self.caseList?.count > 0){
-                                for (var m = 0; m < self.caseList?.count; m++){
-                                    var dict = self.caseList?.objectAtIndex(m) as NSDictionary
-                                    var flag:AnyObject? = dict.objectForKey("flag")
-                                    if (flag != nil){
-                                        if (flag!.integerValue == i){
-                                            methodModel?.cnName = dict.objectForKey("cnName") as? String
-                                            methodModel?.enName = dict.objectForKey("enName") as? String
-                                            break
-                                        }
-                                    }
-                                    
-                                }
-                            }
+            Alamofire.request(.GET, url)
+                .responseJSON { (_, _, JSON, error) in
+                    println(error)
+                    if (error == nil){
+                        var dict:NSDictionary = JSON as! NSDictionary
+                        var studyCases:[Int] = dict.objectForKey("study_cases") as! Array
+                        if studyCases.count == 0{
+                            self.view.hideToastActivity()
+                            self.view.makeToast("", duration: 2.0, position: CSToastPositionCenter, image: UIImage(named: "nothing"))
                             
-                            self.dataList.addObject(methodModel!)
                         }
-                        self.collectionView.reloadData()
+                        else{
+                            self.view.hideToastActivity()
+                            var methodModel:MethodModel?
+                            for i in studyCases{
+                                methodModel = MethodModel()
+                                if (i > 9){
+                                    methodModel?.iconName = "S1408W0" + String(i)
+                                }
+                                else{
+                                    methodModel?.iconName = "S1408W00" + String(i)
+                                }
+                                methodModel?.flag = String(i)
+                                if (self.caseList?.count > 0){
+                                    for (var m = 0; m < self.caseList?.count; m++){
+                                        var dict = self.caseList?.objectAtIndex(m) as! NSDictionary
+                                        var flag:AnyObject? = dict.objectForKey("flag")
+                                        if (flag != nil){
+                                            if (flag!.integerValue == i){
+                                                methodModel?.cnName = dict.objectForKey("cnName") as? String
+                                                methodModel?.enName = dict.objectForKey("enName") as? String
+                                                break
+                                            }
+                                        }
+                                        
+                                    }
+                                }
+                                
+                                self.dataList.addObject(methodModel!)
+                            }
+                            self.collectionView.reloadData()
+                            
+                        }
                         
                     }
-                    
-                }
-                
-            })
+            }
+            
         }
         
     }

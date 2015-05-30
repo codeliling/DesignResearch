@@ -98,11 +98,11 @@ class MethodDetailViewController: UIViewController,UITableViewDataSource,UITable
     func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
         //cell.backgroundColor = UIColor(red: 102/255.0, green: 59/255.0, blue: 209/255.0, alpha: 1)
         if indexPath.row == 0{
-            var cell:MenuCell = cell as MenuCell
+            var cell:MenuCell = cell as! MenuCell
             for subView in cell.contentView.subviews{
                 if (subView.isKindOfClass(MenuView.classForCoder()))
                 {
-                    var view:MenuView = subView as MenuView
+                    var view:MenuView = subView as! MenuView
                     view.updateTextColor(UIColor(red: 102/255.0, green: 59/255.0, blue: 209/255.0, alpha: 1))
                 }
             }
@@ -113,7 +113,7 @@ class MethodDetailViewController: UIViewController,UITableViewDataSource,UITable
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         var cellIdentifier:NSString = "Cell";
-        var cell:MenuCell? = tableView.dequeueReusableCellWithIdentifier(cellIdentifier) as? MenuCell;
+        var cell:MenuCell? = tableView.dequeueReusableCellWithIdentifier(cellIdentifier as String) as? MenuCell;
         
         if (cell == nil)
         {
@@ -121,9 +121,9 @@ class MethodDetailViewController: UIViewController,UITableViewDataSource,UITable
             
         }
         
-        var dict:NSDictionary = methodDetailMenuList.objectAtIndex(indexPath.row) as NSDictionary
-        var cnName:String = dict.objectForKey("cnName") as String
-        var enName:String = dict.objectForKey("enName") as String
+        var dict:NSDictionary = methodDetailMenuList.objectAtIndex(indexPath.row) as! NSDictionary
+        var cnName:String = dict.objectForKey("cnName") as! String
+        var enName:String = dict.objectForKey("enName") as! String
         var menuView:MenuView = MenuView(frame: CGRectMake(0, 0, 195, 54), chineseTitle: cnName, enTitle: enName)
         menuView.backgroundColor = UIColor(red: 102/255.0, green: 59/255.0, blue: 209/255.0, alpha: 1)
         menuView.updateTextColor(UIColor.whiteColor())
@@ -158,7 +158,7 @@ class MethodDetailViewController: UIViewController,UITableViewDataSource,UITable
             for subView in views{
                 if (subView.isKindOfClass(MenuView.classForCoder()))
                 {
-                    var view:MenuView = subView as MenuView
+                    var view:MenuView = subView as! MenuView
                     view.updateTextColor(UIColor.whiteColor())
                 }
             }
@@ -173,7 +173,7 @@ class MethodDetailViewController: UIViewController,UITableViewDataSource,UITable
             for subView in views{
                 if (subView.isKindOfClass(MenuView.classForCoder()))
                 {
-                    var view:MenuView = subView as MenuView
+                    var view:MenuView = subView as! MenuView
                     view.updateTextColor(UIColor(red: 102/255.0, green: 59/255.0, blue: 209/255.0, alpha: 1))
                 }
             }
@@ -187,7 +187,7 @@ class MethodDetailViewController: UIViewController,UITableViewDataSource,UITable
             
             if (contentDict != nil ){
                 if (mdscController?.initFlag == 0){
-                    var array:NSArray = self.contentDict?.objectForKey("process_list") as NSArray
+                    var array:NSArray = self.contentDict?.objectForKey("process_list") as! NSArray
                     mdscController?.data = array
                     mdscController?.addStepsView()
                 }
@@ -202,7 +202,7 @@ class MethodDetailViewController: UIViewController,UITableViewDataSource,UITable
             mdscController?.view.hidden = true
             webView.hidden = true
             if (contentDict != nil){
-                var array:[Int] = self.contentDict?.objectForKey("study_cases") as Array
+                var array:[Int] = self.contentDict?.objectForKey("study_cases") as! Array
                 mcController?.caseList = array
                 mcController?.refreshMagnifier()
                 mcController?.initScrollView()
@@ -218,13 +218,13 @@ class MethodDetailViewController: UIViewController,UITableViewDataSource,UITable
             mcController?.view.hidden = true
             if indexPath.row == 0{
                 if (contentDict != nil){
-                    var introduction_text:String = self.contentDict?.objectForKey("introduction_text") as String
+                    var introduction_text:String = self.contentDict?.objectForKey("introduction_text") as! String
                     self.webView.loadHTMLString(introduction_text, baseURL: nil)
                 }
             }
             else if indexPath.row == 1{
                 if (contentDict != nil){
-                    var scene_text:String = self.contentDict?.objectForKey("scene_text") as String
+                    var scene_text:String = self.contentDict?.objectForKey("scene_text") as! String
                     self.webView.loadHTMLString(scene_text, baseURL: nil)
                 }
             }
@@ -239,14 +239,14 @@ class MethodDetailViewController: UIViewController,UITableViewDataSource,UITable
         let tableHeight: CGFloat = tableView.bounds.size.height
         
         for i in cells {
-            let cell: UITableViewCell = i as UITableViewCell
+            let cell: UITableViewCell = i as! UITableViewCell
             cell.transform = CGAffineTransformMakeTranslation(0, tableHeight)
         }
         
         var index = 0
         
         for a in cells {
-            let cell: UITableViewCell = a as UITableViewCell
+            let cell: UITableViewCell = a as! UITableViewCell
             UIView.animateWithDuration(1.5, delay: 0.05 * Double(index), usingSpringWithDamping: 0.8, initialSpringVelocity: 0, options: nil, animations: {
                 cell.transform = CGAffineTransformMakeTranslation(0, 0);
                 }, completion: nil)
@@ -258,22 +258,24 @@ class MethodDetailViewController: UIViewController,UITableViewDataSource,UITable
     func loadingMethodContent(url:String){
         println(url)
         self.view.makeToastActivity()
-        Alamofire.request(.GET, url).responseJSON({ (_, _, JSON, error) -> Void in
-            if (error == nil){
-                println(JSON)
-                self.contentDict = JSON as? NSDictionary
-                var introduction_text:String = self.contentDict?.objectForKey("introduction_text") as String
-                self.webView.loadHTMLString(introduction_text, baseURL: nil)
-            }
-            else
-            {
-                var filePath:String! = NSBundle.mainBundle().pathForResource("404", ofType: "html")
-                var url:NSURL = NSURL(string: filePath, relativeToURL: NSURL(fileURLWithPath: filePath.stringByDeletingLastPathComponent, isDirectory: true))!
-                var request:NSURLRequest = NSURLRequest(URL: url)
-                self.webView.loadRequest(request)
-            }
-            self.view.hideToastActivity()
-        })
+        Alamofire.request(.GET, url)
+            .responseJSON { (_, _, JSON, error) in
+                if (error == nil){
+                    println(JSON)
+                    self.contentDict = JSON as? NSDictionary
+                    var introduction_text:String = self.contentDict?.objectForKey("introduction_text") as! String
+                    self.webView.loadHTMLString(introduction_text, baseURL: nil)
+                }
+                else
+                {
+                    var filePath:String! = NSBundle.mainBundle().pathForResource("404", ofType: "html")
+                    var url:NSURL = NSURL(string: filePath, relativeToURL: NSURL(fileURLWithPath: filePath.stringByDeletingLastPathComponent, isDirectory: true))!
+                    var request:NSURLRequest = NSURLRequest(URL: url)
+                    self.webView.loadRequest(request)
+                }
+                self.view.hideToastActivity()
+        }
+       
     }
     
     func backTapClick(gesture:UIGestureRecognizer){

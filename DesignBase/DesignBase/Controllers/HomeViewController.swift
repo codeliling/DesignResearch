@@ -68,7 +68,7 @@ class HomeViewController:UIViewController,UICollectionViewDataSource, UICollecti
             methodModel = MethodModel()
             methodModel.cnName = dict.objectForKey("cnName") as? String
             methodModel.enName = dict.objectForKey("enName") as? String
-            methodModel.iconName = dict.objectForKey("iconName") as String
+            methodModel.iconName = dict.objectForKey("iconName") as? String
             methodModel.flag = dict.objectForKey("flag") as? String
             
             methodList.append(methodModel)
@@ -182,7 +182,7 @@ class HomeViewController:UIViewController,UICollectionViewDataSource, UICollecti
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         var methodModel:MethodModel = methodList[indexPath.row]
-        var imageCell:HomeListCell = collectionView.dequeueReusableCellWithReuseIdentifier("Cell", forIndexPath: indexPath) as HomeListCell
+        var imageCell:HomeListCell = collectionView.dequeueReusableCellWithReuseIdentifier("Cell", forIndexPath: indexPath) as! HomeListCell
         imageCell.iconView.image = UIImage(named: methodModel.iconName)
         
         var result:Bool = false
@@ -204,7 +204,7 @@ class HomeViewController:UIViewController,UICollectionViewDataSource, UICollecti
         var methodModel:MethodModel = methodList[indexPath.row]
         
         if menuType == MenuType.METHOD.rawValue{
-            var detailViewController:MethodDetailViewController = self.storyboard?.instantiateViewControllerWithIdentifier("methodDetail") as MethodDetailViewController
+            var detailViewController:MethodDetailViewController = self.storyboard?.instantiateViewControllerWithIdentifier("methodDetail") as! MethodDetailViewController
             if methodModel.flag != nil{
                 detailViewController.methodId = methodModel.flag!
             }
@@ -214,7 +214,7 @@ class HomeViewController:UIViewController,UICollectionViewDataSource, UICollecti
             
         }
         else if menuType == MenuType.CASE.rawValue{
-            var detailViewController = self.storyboard?.instantiateViewControllerWithIdentifier("caseDetail") as CaseViewController
+            var detailViewController = self.storyboard?.instantiateViewControllerWithIdentifier("caseDetail") as! CaseViewController
             println(methodModel.cnName)
             detailViewController.chineseTitle = methodModel.cnName
             detailViewController.enTitle = methodModel.enName
@@ -240,7 +240,7 @@ class HomeViewController:UIViewController,UICollectionViewDataSource, UICollecti
     
     func animationOfReceivedNotification(notification:NSNotification)
     {
-        var menuStatus:String = notification.object as String
+        var menuStatus:String = notification.object as! String
         
         if menuStatus == "CLOSE"{
             if (subMenuIsSpread){
@@ -268,7 +268,7 @@ class HomeViewController:UIViewController,UICollectionViewDataSource, UICollecti
     
     func eyeOfReceivedNotification(notification:NSNotification)
     {
-        var eyeOrAbout:String = notification.object as String
+        var eyeOrAbout:String = notification.object as! String
         if (eyeOrAbout == "EYE"){
             if methodList.count > 0{
                 if !isAddPanel{
@@ -304,7 +304,7 @@ class HomeViewController:UIViewController,UICollectionViewDataSource, UICollecti
     
     func typeReceivedNotification(notification:NSNotification)
     {
-        menuType = notification.object as Int
+        menuType = notification.object as! Int
         
         if menuType == MenuType.THEORY.rawValue{
             theoryViewController?.view.hidden = false
@@ -324,7 +324,7 @@ class HomeViewController:UIViewController,UICollectionViewDataSource, UICollecti
                 methodModel = MethodModel()
                 methodModel.cnName = dict.objectForKey("cnName") as? String
                 methodModel.enName = dict.objectForKey("enName") as? String
-                methodModel.iconName = dict.objectForKey("iconName") as String
+                methodModel.iconName = dict.objectForKey("iconName") as? String
                 methodModel.flag = dict.objectForKey("flag") as? String
                 
                 methodList.append(methodModel)
@@ -349,7 +349,7 @@ class HomeViewController:UIViewController,UICollectionViewDataSource, UICollecti
                 methodModel = MethodModel()
                 methodModel.cnName = dict.objectForKey("cnName") as? String
                 methodModel.enName = dict.objectForKey("enName") as? String
-                methodModel.iconName = dict.objectForKey("iconName") as String
+                methodModel.iconName = dict.objectForKey("iconName") as? String
                 methodModel.flag = dict.objectForKey("flag") as? String
                 
                 methodList.append(methodModel)
@@ -369,7 +369,7 @@ class HomeViewController:UIViewController,UICollectionViewDataSource, UICollecti
     
     func contentReceivedNotification(notification:NSNotification){
         methodList.removeAll(keepCapacity: true)
-        var array:[MethodModel] = notification.object as Array
+        var array:[MethodModel] = notification.object as! Array
         for methodModel in array{
             methodList.append(methodModel)
         }
@@ -382,10 +382,10 @@ class HomeViewController:UIViewController,UICollectionViewDataSource, UICollecti
     
     func theoryReceivedNotification(notification:NSNotification){
        
-        var chapter:SubMenuModel = notification.object as SubMenuModel
+        var chapter:SubMenuModel = notification.object as! SubMenuModel
         println(chapter.chapterID)
         
-        if chapter.chapterID? != nil{
+        if chapter.chapterID != nil{
             
             var url:String = RequestURL.ServerBookURL + chapter.chapterID!
            
@@ -421,21 +421,22 @@ class HomeViewController:UIViewController,UICollectionViewDataSource, UICollecti
     
     func loadingTheoryContent(url:String){
         self.view.makeToastActivity()
-        Alamofire.request(.GET, url).responseJSON({ (_, _, JSON, error) -> Void in
-            println(error)
-            if (error == nil){
-                println("success")
-                var dict:NSDictionary = JSON as NSDictionary
-                self.theoryViewController?.webView.loadHTMLString(dict.objectForKey("content") as String, baseURL: nil)
-            }
-            else{
-                var filePath:String! = NSBundle.mainBundle().pathForResource("404", ofType: "html")
-                var url:NSURL = NSURL(string: filePath, relativeToURL: NSURL(fileURLWithPath: filePath.stringByDeletingLastPathComponent, isDirectory: true))!
-                var request:NSURLRequest = NSURLRequest(URL: url)
-                self.theoryViewController?.webView.loadRequest(request)
-            }
-            self.view.hideToastActivity()
-        })
+        Alamofire.request(.GET, url)
+            .responseJSON { (_, _, JSON, error) in
+                println(error)
+                if (error == nil){
+                    println("success")
+                    var dict:NSDictionary = JSON as! NSDictionary
+                    self.theoryViewController?.webView.loadHTMLString(dict.objectForKey("content") as! String, baseURL: nil)
+                }
+                else{
+                    var filePath:String! = NSBundle.mainBundle().pathForResource("404", ofType: "html")
+                    var url:NSURL = NSURL(string: filePath, relativeToURL: NSURL(fileURLWithPath: filePath.stringByDeletingLastPathComponent, isDirectory: true))!
+                    var request:NSURLRequest = NSURLRequest(URL: url)
+                    self.theoryViewController?.webView.loadRequest(request)
+                }
+                self.view.hideToastActivity()
+        }
     }
     
     func doHandlePanAction(paramSender:UIPanGestureRecognizer){
@@ -483,7 +484,7 @@ class HomeViewController:UIViewController,UICollectionViewDataSource, UICollecti
     
     func doHandleTapAction(gesture:UITapGestureRecognizer){
         println("\(panelClickMethodModel?.cnName), \(panelClickMethodModel?.flag)")
-        var detailViewController:RelationCaseViewController = self.storyboard?.instantiateViewControllerWithIdentifier("RelationCaseView") as RelationCaseViewController
+        var detailViewController:RelationCaseViewController = self.storyboard?.instantiateViewControllerWithIdentifier("RelationCaseView") as! RelationCaseViewController
         if (panelClickMethodModel?.flag != nil){
             
             detailViewController.methodId = panelClickMethodModel?.flag

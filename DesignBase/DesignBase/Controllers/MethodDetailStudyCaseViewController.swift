@@ -61,9 +61,9 @@ class MethodDetailStudyCaseViewController: UIViewController {
             if (data?.count == 3){
                 var i = 0
                 for dict in data!{
-                    var stepObject:NSDictionary = dict as NSDictionary
+                    var stepObject:NSDictionary = dict as! NSDictionary
                     let (x, y) = threeCoordinate[i]
-                    self.addFlowStepView(x, y: y, tagId:i, dict: dict as NSDictionary)
+                    self.addFlowStepView(x, y: y, tagId:i, dict: dict as! NSDictionary)
                     i++;
                     
                 }
@@ -71,18 +71,18 @@ class MethodDetailStudyCaseViewController: UIViewController {
             else if (data?.count == 4){
                 var i = 0
                 for dict in data!{
-                    var stepObject:NSDictionary = dict as NSDictionary
+                    var stepObject:NSDictionary = dict as! NSDictionary
                     let (x, y) = fourCoordinate[i]
-                    self.addFlowStepView(x, y: y, tagId:i, dict: dict as NSDictionary)
+                    self.addFlowStepView(x, y: y, tagId:i, dict: dict as! NSDictionary)
                     i++;
                 }
             }
             else if (data?.count == 5){
                 var i = 0
                 for dict in data!{
-                    var stepObject:NSDictionary = dict as NSDictionary
+                    var stepObject:NSDictionary = dict as! NSDictionary
                     let (x, y) = fiveCoordinate[i]
-                    self.addFlowStepView(x, y: y, tagId:i, dict: dict as NSDictionary)
+                    self.addFlowStepView(x, y: y, tagId:i, dict: dict as! NSDictionary)
                     i++;
                 }
             }
@@ -90,7 +90,7 @@ class MethodDetailStudyCaseViewController: UIViewController {
     }
     
     func addFlowStepView(x:CGFloat, y:CGFloat,tagId:Int, dict:NSDictionary){
-        var flowStepView:FlowStepView = FlowStepView(frame: CGRectMake(x, y, viewWidth, viewHeight), titleString: dict.objectForKey("name") as String!)
+        var flowStepView:FlowStepView = FlowStepView(frame: CGRectMake(x, y, viewWidth, viewHeight), titleString: dict.objectForKey("name") as! String!)
         flowStepView.backgroundColor = UIColor.clearColor()
         flowStepView.tag = tagId
         self.view.addSubview(flowStepView)
@@ -106,8 +106,8 @@ class MethodDetailStudyCaseViewController: UIViewController {
             viewTag = view.tag
         }
         
-        var dict:NSDictionary = data?.objectAtIndex(viewTag) as NSDictionary
-        textView.text = dict.objectForKey("description_text") as String
+        var dict:NSDictionary = data?.objectAtIndex(viewTag) as! NSDictionary
+        textView.text = dict.objectForKey("description_text") as! String
         
         if let sView = showView{
             recoverStateByAnimation(sView, formerView: gesture.view!)

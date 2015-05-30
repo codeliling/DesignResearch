@@ -38,12 +38,13 @@ class FlowStepView: UIView {
         self.layer.addSublayer(bottomLayer)
         
         titleName = CATextLayer()
-        titleName.frame = CGRectMake(15, 43, 40, 45)
+        titleName.frame = CGRectMake(15, 43, 40, 55)
         let fontName: CFStringRef = "SourceHanSansCN-Normal"
         //let fontName:CFStringRef = "Helvetica"
         titleName.font = CTFontCreateWithName(fontName, 16, nil)
         titleName.foregroundColor = UIColor(red: 102/255.0, green: 59/255.0, blue: 209/255.0, alpha: 1).CGColor!
         titleName.fontSize = 18;
+        titleName.wrapped = true
         if (retinaScreen)
         {
             titleName.contentsScale = 1.0
@@ -54,7 +55,6 @@ class FlowStepView: UIView {
         }
         titleName.string = titleString
         titleName.wrapped = true;
-        println("*****:\(titleString)")
         self.layer.addSublayer(titleName)
     }
 }

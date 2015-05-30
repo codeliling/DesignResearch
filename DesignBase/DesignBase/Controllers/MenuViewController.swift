@@ -95,10 +95,10 @@ class MenuViewController:UIViewController,UITableViewDataSource,UITableViewDeleg
         
         if currentType == MenuType.THEORY{
             var view:UIView = UIView(frame: CGRectMake(0, 0, 210, 80))
-            var dict:NSDictionary =  methodMenuList.objectAtIndex(section) as NSDictionary
+            var dict:NSDictionary =  methodMenuList.objectAtIndex(section) as! NSDictionary
             theorySubMenuList = dict.objectForKey("list") as? NSArray
-            var cnName:String = dict.objectForKey("cnName") as String
-            var enName:String = dict.objectForKey("enName") as String
+            var cnName:String = dict.objectForKey("cnName") as! String
+            var enName:String = dict.objectForKey("enName") as! String
             var frame:CGRect?
             var lineFrame:CGRect?
             
@@ -131,16 +131,16 @@ class MenuViewController:UIViewController,UITableViewDataSource,UITableViewDeleg
         
         var dict:NSDictionary!
         if currentType == MenuType.THEORY{
-            var tempDict:NSDictionary =  methodMenuList.objectAtIndex(indexPath.section) as NSDictionary
+            var tempDict:NSDictionary =  methodMenuList.objectAtIndex(indexPath.section) as! NSDictionary
             theorySubMenuList = tempDict.objectForKey("list") as? NSArray
-            dict = theorySubMenuList?.objectAtIndex(indexPath.row) as NSDictionary
+            dict = theorySubMenuList?.objectAtIndex(indexPath.row) as! NSDictionary
         }
         else
         {
             dict = methodMenuList.objectAtIndex(indexPath.row) as? NSDictionary
         }
-        var cnName:String = dict?.objectForKey("cnName") as String
-        var enName:String = dict?.objectForKey("enName") as String
+        var cnName:String = dict?.objectForKey("cnName") as! String
+        var enName:String = dict?.objectForKey("enName") as! String
         var menuView:MenuView = MenuView(frame: CGRectMake(0, 0, 210, 54), chineseTitle: cnName, enTitle: enName)
     
         menuView.backgroundColor = UIColor(red: 102/255.0, green: 59/255.0, blue: 209/255.0, alpha: 1)
@@ -167,7 +167,7 @@ class MenuViewController:UIViewController,UITableViewDataSource,UITableViewDeleg
             for subView in views{
                 if (subView.isKindOfClass(MenuView.classForCoder()))
                 {
-                    var view:MenuView = subView as MenuView
+                    var view:MenuView = subView as! MenuView
                     view.updateTextColor(UIColor.whiteColor())
                 }
             }
@@ -176,8 +176,8 @@ class MenuViewController:UIViewController,UITableViewDataSource,UITableViewDeleg
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if currentType == MenuType.THEORY{
-            var dict:NSDictionary =  methodMenuList.objectAtIndex(section) as NSDictionary
-            var list:NSArray = dict.objectForKey("list") as NSArray
+            var dict:NSDictionary =  methodMenuList.objectAtIndex(section) as! NSDictionary
+            var list:NSArray = dict.objectForKey("list") as! NSArray
             return list.count
         }
         else
@@ -193,7 +193,7 @@ class MenuViewController:UIViewController,UITableViewDataSource,UITableViewDeleg
             for subView in cell.contentView.subviews{
                 if (subView.isKindOfClass(MenuView.classForCoder()))
                 {
-                    var view:MenuView = subView as MenuView
+                    var view:MenuView = subView as! MenuView
                     view.updateTextColor(UIColor(red: 102/255.0, green: 59/255.0, blue: 209/255.0, alpha: 1))
                     view.backgroundColor = UIColor.whiteColor()
                 }
@@ -212,7 +212,7 @@ class MenuViewController:UIViewController,UITableViewDataSource,UITableViewDeleg
                 for subView in views{
                     if (subView.isKindOfClass(MenuView.classForCoder()))
                     {
-                        var view:MenuView = subView as MenuView
+                        var view:MenuView = subView as! MenuView
                         view.updateTextColor(UIColor.whiteColor())
                         view.backgroundColor = UIColor(red: 102/255.0, green: 59/255.0, blue: 209/255.0, alpha: 1)
                     }
@@ -225,7 +225,7 @@ class MenuViewController:UIViewController,UITableViewDataSource,UITableViewDeleg
             for subView in views{
                 if (subView.isKindOfClass(MenuView.classForCoder()))
                 {
-                    var view:MenuView = subView as MenuView
+                    var view:MenuView = subView as! MenuView
                     view.updateTextColor(UIColor(red: 102/255.0, green: 59/255.0, blue: 209/255.0, alpha: 1))
                 }
             }
@@ -245,9 +245,9 @@ class MenuViewController:UIViewController,UITableViewDataSource,UITableViewDeleg
         }
         
         if (currentType.rawValue != MenuType.THEORY.rawValue){
-            var dict:NSDictionary = methodMenuList.objectAtIndex(indexPath.row) as NSDictionary
-            subMenuModel.cnName = dict.objectForKey("cnName") as String
-            subMenuModel.enName = dict.objectForKey("enName") as String
+            var dict:NSDictionary = methodMenuList.objectAtIndex(indexPath.row) as! NSDictionary
+            subMenuModel.cnName = dict.objectForKey("cnName") as! String
+            subMenuModel.enName = dict.objectForKey("enName") as! String
             var flag: AnyObject? = dict.objectForKey("flag")
             if (flag != nil){
                 subMenuModel.tableIndex = Int(flag!.integerValue)
@@ -260,9 +260,9 @@ class MenuViewController:UIViewController,UITableViewDataSource,UITableViewDeleg
             
         }
         else{
-            var fatherDict:NSDictionary = methodMenuList.objectAtIndex(indexPath.section) as NSDictionary
-            var subList:NSArray = fatherDict.objectForKey("list") as NSArray
-            var dict:NSDictionary = subList.objectAtIndex(indexPath.row) as NSDictionary
+            var fatherDict:NSDictionary = methodMenuList.objectAtIndex(indexPath.section) as! NSDictionary
+            var subList:NSArray = fatherDict.objectForKey("list") as! NSArray
+            var dict:NSDictionary = subList.objectAtIndex(indexPath.row) as! NSDictionary
             subMenuModel.chapterID = dict.objectForKey("flag") as? String
             
             NSNotificationCenter.defaultCenter().postNotificationName("TheoryContentNotification", object: subMenuModel)
@@ -288,13 +288,13 @@ class MenuViewController:UIViewController,UITableViewDataSource,UITableViewDeleg
             var methodArray:Array = [MethodModel]()
             var methodModel:MethodModel?
             if methodList.count > 0{
-                var dict:NSDictionary = methodList.objectAtIndex(0) as NSDictionary
+                var dict:NSDictionary = methodList.objectAtIndex(0) as! NSDictionary
                 
-                var list:NSArray = dict.objectForKey("list") as NSArray
+                var list:NSArray = dict.objectForKey("list") as! NSArray
                 for tempDict in list{
                     methodModel = MethodModel()
                     methodModel?.cnName = tempDict.objectForKey("cnName") as? String
-                    methodModel?.iconName = tempDict.objectForKey("iconName") as String
+                    methodModel?.iconName = tempDict.objectForKey("iconName") as! String
                     methodModel?.flag = tempDict.objectForKey("flag") as? String
                     methodArray.append(methodModel!)
                 }
@@ -322,8 +322,8 @@ class MenuViewController:UIViewController,UITableViewDataSource,UITableViewDeleg
             var caseArray:Array = [MethodModel]()
             var caseModel:MethodModel?
             if caseList.count > 0{
-                var dict:NSDictionary = caseList.objectAtIndex(0) as NSDictionary
-                var list:NSArray = dict.objectForKey("list") as NSArray
+                var dict:NSDictionary = caseList.objectAtIndex(0) as! NSDictionary
+                var list:NSArray = dict.objectForKey("list") as! NSArray
                 for tempDict in list{
                     caseModel = MethodModel()
                     caseModel?.cnName = tempDict.objectForKey("cnName") as? String
